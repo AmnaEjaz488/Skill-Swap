@@ -1,93 +1,99 @@
 /* Home Page Styles */
 .home-page {
-    padding: 20px;
-  }
-  
-  .hero {
+    padding: 5px; /* Reduce overall padding */
+}
+
+/* Hero Section */
+.hero {
     text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .hero-image {
+    margin-bottom: 5px; /* Reduce bottom margin */
+}
+
+.hero-image {
     width: 100%;
-    max-width: 600px;
+    max-width: 500px; /* Slightly smaller max width */
     height: auto;
     margin: 0 auto;
     border-radius: 10px;
-  }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-    margin: 20px 0;
+}
+
+.hero h1 {
+    font-size: 2rem; /* Slightly smaller font size */
+    margin: 5px 0; /* Reduce vertical spacing */
     color: #4CAF50;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  
-  .cta-button {
+}
+
+.hero p {
+    font-size: 0.80rem; /* Slightly smaller font size */
+    margin-bottom: 5px; /* Reduce bottom margin */
+}
+
+.cta-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 5px 12px; /* Reduce padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .cta-button:hover {
+    margin: 2px; /* Add a small margin if needed */
+}
+
+.cta-button:hover {
     background-color: #45a049;
-  }
-  
-  /* Features Section */
-  .features {
-    margin: 40px 0;
-  }
-  
-  .feature-cards {
+}
+
+/* Features Section */
+.features {
+    margin: 5px 5px; /* Reduce margin around the features section */
+}
+
+.feature-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 3px; /* Reduce the gap between feature cards */
     justify-content: center;
-  }
-  
-  .feature-card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .feature-card img {
-    width: 90%; /* Ensures the image takes up the full width of the card */
-    height: 200px; /* Set a consistent height for all images */
-    object-fit: cover; /* Ensures the image fills the container without distortion */
-    border-radius: 10px; /* Keeps the rounded corners */
-    margin-bottom: 15px;
+}
+
+/* Feature Card Container */
+.feature-card {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-  }
-  
-  .feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #4CAF50;
-  }
-  
-  .feature-card p {
-    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures content stays inside the card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow intensity */
+    margin: 3px; /* Reduce margin around each card */
+    width: 250px; /* Slightly smaller card width */
+    background-color: white;
+    padding: 8px; /* Reduce padding inside each card */
+}
+
+.feature-card img {
+    width: 150%; /* Make the image fill the card width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensures the image fits nicely */
+    border-bottom: 1px solid #ddd;
+}
+
+/* Feature Content */
+.feature-card h3 {
+    margin: 5px 0; /* Reduce vertical spacing */
+    font-size: 1.3rem; /* Slightly smaller font size */
+}
+
+.feature-card p {
     color: #555;
-  }
-  
-  /* Footer */
-  .footer {
+    font-size: 0.9rem; /* Slightly smaller font size */
     text-align: center;
-    padding: 20px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 5px; /* Reduce padding */
     background-color: #4CAF50;
     color: white;
-    margin-top: 40px;
-  }
+    margin-top: 10px; /* Reduce top margin */
+}
