@@ -3,38 +3,22 @@ import { Link } from "react-router-dom";
 import '../styles/Navbar.css'; // Import Navbar-specific styles
 
 const Navbar = () => {
-  const isAuthenticated = true; // Replace with actual authentication logic
-
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">Skill Swap</Link>
+        <a href="/">Skill Swap</a>
       </div>
-      <ul className="navbar-links">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
+      <ul className="nav-links">
+        <li><a href="/">Home</a></li>
         <li className="dropdown">
-          
-          <Link to="/dashboard">Dashboard</Link>
+          <a href="/dashboard">Dashboard</a>
           <ul className="dropdown-menu">
-            <li>
-              <Link to="/dashboard/skills">Skills</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/booking">Booking</Link>
-            </li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/skills">Skills</a></li>
+            <li><a href="/Booking">Booking</a></li>
           </ul>
         </li>
-        {!isAuthenticated ? (
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        ) : (
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
-        )}
+        <li><a href="/login">Login</a></li>
       </ul>
     </nav>
   );
