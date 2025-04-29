@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const dayjs = require('dayjs')
 //import dayjs from 'dayjs' // ES 2015
-const foramtDate = (date) => {
+const formatDate = (date) => {
     return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 }
 
@@ -21,7 +21,7 @@ const bookings = new Schema({
     DateTime: {
       type: Date,
       required: true,
-      get: (date) => foramtDate(date)
+      get: (date) => formatDate(date)
     },  
 
     goalsForSession: {
@@ -53,4 +53,4 @@ const bookings = new Schema({
 
 
 const Bookings = model('Bookings', bookings);
-export default Bookings
+export default Bookings;
