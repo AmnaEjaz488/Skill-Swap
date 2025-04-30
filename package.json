@@ -1,7 +1,12 @@
 {
   "dependencies": {
     "@apollo/server": "^4.12.0",
+    "apollo-server-express": "^3.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
+  },
+  "scripts": {
+    "start": "node Server-backend/src/server.js",
+    "dev": "nodemon Server-backend/src/server.js"
   }
 }

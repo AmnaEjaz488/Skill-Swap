@@ -1,13 +1,13 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema');
-const db = require('./config/db');
+import express from 'express';
+import { graphqlHTTP } from 'express-graphql';
+import schema from './schema/index.js';
+import connectDB from './config/db.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Connect to the database
-db.connect();
+connectDB();
 
 // Set up GraphQL endpoint
 app.use('/graphql', graphqlHTTP({

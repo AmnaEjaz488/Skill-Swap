@@ -1,22 +1,25 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, Skill, Booking } = require('../models');
+const { User, SkillOffered, SkillNeeded, Booking } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        return await User.findById(context.user._id).populate('skillsOffered skillsWanted');
+        return await User.findById(context.user._id)
+          .populate('skillsOffered')
+          .populate('skillsNeeded');
       }
       throw new AuthenticationError('You must be logged in');
     },
-    skills: async (parent, { category }) => {
-      const query = category ? { category } : {};
-      return Skill.find(query).populate('createdBy');
+    skillsOffered: async () => {
+      return SkillOffered.find().populate('userId');
+    },
+    skillsNeeded: async () => {
+      return SkillNeeded.find().populate('userId');
     },
     bookings: async (parent, args, context) => {
       if (context.user) {
-        return Booking.find({ userId: context.user._id }).populate('skillId');
+        return Booking.find({ userId: context.user._id });
       }
       throw new AuthenticationError('You must be logged in');
     }
@@ -36,24 +39,34 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addSkill: async (parent, args, context) => {
+    addSkillOffered: async (parent, args, context) => {
       if (context.user) {
-        const skill = await Skill.create({ ...args, createdBy: context.user._id });
+        const skill = await SkillOffered.create({ ...args, userId: context.user._id });
         await User.findByIdAndUpdate(context.user._id, { $push: { skillsOffered: skill._id } });
         return skill;
       }
       throw new AuthenticationError('You must be logged in');
     },
-    editSkill: async (parent, { skillId, ...updates }, context) => {
+    addSkillNeeded: async (parent, args, context) => {
       if (context.user) {
-        return Skill.findByIdAndUpdate(skillId, updates, { new: true });
+        const skill = await SkillNeeded.create({ ...args, userId: context.user._id });
+        await User.findByIdAndUpdate(context.user._id, { $push: { skillsNeeded: skill._id } });
+        return skill;
       }
       throw new AuthenticationError('You must be logged in');
     },
-    deleteSkill: async (parent, { skillId }, context) => {
+    deleteSkillOffered: async (parent, { skillId }, context) => {
       if (context.user) {
-        const skill = await Skill.findByIdAndDelete(skillId);
+        const skill = await SkillOffered.findByIdAndDelete(skillId);
         await User.findByIdAndUpdate(context.user._id, { $pull: { skillsOffered: skillId } });
+        return skill;
+      }
+      throw new AuthenticationError('You must be logged in');
+    },
+    deleteSkillNeeded: async (parent, { skillId }, context) => {
+      if (context.user) {
+        const skill = await SkillNeeded.findByIdAndDelete(skillId);
+        await User.findByIdAndUpdate(context.user._id, { $pull: { skillsNeeded: skillId } });
         return skill;
       }
       throw new AuthenticationError('You must be logged in');

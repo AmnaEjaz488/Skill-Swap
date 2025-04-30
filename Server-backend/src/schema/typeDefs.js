@@ -6,24 +6,34 @@ const typeDefs = gql`
     name: String!
     email: String!
     bio: String
-    skillsOffered: [Skill]
-    skillsWanted: [Skill]
-    token: String
+    skillsOffered: [SkillOffered]
+    skillsNeeded: [SkillNeeded]
   }
 
-  type Skill {
+  type SkillOffered {
     _id: ID!
-    title: String!
-    category: String!
-    description: String
-    availability: String
-    createdBy: User
+    skillName: String!
+    experience: Int
+    skillLevel: String
+    hoursAvailable: Int
+    daysAvailable: [String]
+    bookings: [Booking]
+    userId: User
+  }
+
+  type SkillNeeded {
+    _id: ID!
+    skillName: String!
+    skillDescription: String!
+    daysAvailable: [String]
+    bookings: [Booking]
+    userId: User
   }
 
   type Booking {
     _id: ID!
     userId: User
-    skillId: Skill
+    skillId: ID
     date: String
   }
 
@@ -34,7 +44,8 @@ const typeDefs = gql`
 
   type Query {
     me: User
-    skills(category: String): [Skill]
+    skillsOffered: [SkillOffered]
+    skillsNeeded: [SkillNeeded]
     bookings: [Booking]
   }
 
@@ -42,9 +53,22 @@ const typeDefs = gql`
     signup(name: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
 
-    addSkill(title: String!, category: String!, description: String, availability: String): Skill
-    editSkill(skillId: ID!, title: String, category: String, description: String, availability: String): Skill
-    deleteSkill(skillId: ID!): Skill
+    addSkillOffered(
+      skillName: String!
+      experience: Int!
+      skillLevel: String!
+      hoursAvailable: Int!
+      daysAvailable: [String]
+    ): SkillOffered
+
+    addSkillNeeded(
+      skillName: String!
+      skillDescription: String!
+      daysAvailable: [String]
+    ): SkillNeeded
+
+    deleteSkillOffered(skillId: ID!): SkillOffered
+    deleteSkillNeeded(skillId: ID!): SkillNeeded
 
     requestSession(skillId: ID!, date: String!): Booking
   }
