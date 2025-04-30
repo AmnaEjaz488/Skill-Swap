@@ -1,9 +1,14 @@
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-import mongoose from'mongoose';
-import dotenv from 'dotenv' 
 dotenv.config();
-console.log(process.env.MONGODB_URI)
->>>>>>> 5ecb0e666b5738eaacf13f2447564a3f3ca59dea
+
+if (!process.env.MONGODB_URI) {
+    console.error('Error: MONGODB_URI is not defined in the .env file');
+    process.exit(1);
+}
+
+console.log('Connecting to MongoDB:', process.env.MONGODB_URI);
 
 const connectDB = async () => {
     try {

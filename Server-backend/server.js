@@ -2,45 +2,43 @@ import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
-<<<<<<< HEAD:Server-backend/server.js
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' }); // Adjust the path if necessary
-
+dotenv.config({ path: '../.env' });
 import { typeDefs, resolvers } from './schema/index.js';
 import connectDB from './config/db.js';
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-=======
-
-import { typeDefs, resolvers } from './schemas/index.js';
-import db from './config/connection.js';
-
-const PORT = process.env.PORT || 3001;
-const app = express();
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/server.js
+// Initialize Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => {
+    const token = req.headers.authorization || '';
+    if (token) {
+      try {
+        const user = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+        return { user }; // Attach the user to the context
+      } catch (err) {
+        console.error('Invalid token:', err.message);
+      }
+    }
+    return {}; // Return an empty context if no valid token is provided
+  },
 });
 
 const startApolloServer = async () => {
   await server.start();
-<<<<<<< HEAD:Server-backend/server.js
 
-=======
-  
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/server.js
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  
+
+  // Middleware for Apollo Server
   app.use('/graphql', expressMiddleware(server));
 
-<<<<<<< HEAD:Server-backend/server.js
-=======
-  // if we're in production, serve client/dist as static assets
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/server.js
+  // Serve static assets in production
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -48,22 +46,15 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
-  
-<<<<<<< HEAD:Server-backend/server.js
+
   // Connect to MongoDB
   await connectDB();
-=======
-  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/server.js
 
+  // Start the server
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+    console.log(`GraphQL endpoint available at http://localhost:${PORT}/graphql`);
   });
 };
 
 startApolloServer();
-<<<<<<< HEAD:Server-backend/server.js
-=======
-
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/server.js

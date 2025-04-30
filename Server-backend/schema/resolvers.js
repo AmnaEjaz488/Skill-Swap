@@ -1,5 +1,9 @@
-const { User, SkillOffered, SkillNeeded, Booking } = require('../models');
+const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
+const User = require('../models/User');
+const SkillOffered = require('../models/SkillOffered');
+const SkillNeeded = require('../models/SkillNeeded');
+const Booking = require('../models/Booking');
 
 const resolvers = {
   Query: {
@@ -22,19 +26,19 @@ const resolvers = {
         return Booking.find({ userId: context.user._id });
       }
       throw new AuthenticationError('You must be logged in');
-    }
+    },
   },
 
   Mutation: {
     signup: async (parent, { name, email, password }) => {
-      const user = await User.create({ name, email, password });
+      const user = await User.create({ username: name, email, password });
       const token = signToken(user);
       return { token, user };
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user || !(await user.isCorrectPassword(password))) {
-        throw new AuthenticationError('Invalid credentials');
+        throw new AuthenticationError('Invalid email or password');
       }
       const token = signToken(user);
       return { token, user };
@@ -76,8 +80,8 @@ const resolvers = {
         return Booking.create({ userId: context.user._id, skillId, date });
       }
       throw new AuthenticationError('You must be logged in');
-    }
-  }
+    },
+  },
 };
 
 module.exports = resolvers;

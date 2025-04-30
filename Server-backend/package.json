@@ -3,26 +3,18 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A Node.js backend using Express and GraphQL",
-  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
   },
   "dependencies": {
-<<<<<<< HEAD:Server-backend/package.json
-    "apollo-server-express": "^3.12.0",
-    "express": "^4.17.1",
-    "graphql": "^16.11.0",
-    "mongoose": "^5.10.9"
-=======
+    "@apollo/server": "^4.12.0",
     "dayjs": "^1.11.13",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.5.0",
-    "mongoose": "^5.13.23"
->>>>>>> f2fdd44e5815ad372853fa4666366d63adf32d59:Server-backend/src/package.json
+    "graphql": "^16.11.0",
+    "mongoose": "^5.10.9"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
