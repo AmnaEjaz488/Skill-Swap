@@ -61,11 +61,6 @@ const Home = () => {
           
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <p>&copy; 2025 SkillSwap. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
