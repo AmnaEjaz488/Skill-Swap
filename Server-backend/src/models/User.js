@@ -56,7 +56,7 @@ const userSchema = new Schema (
         type: String,
         required: false,
         },
-        location: {
+    location: {
             type: String,
             required: false,
             },
