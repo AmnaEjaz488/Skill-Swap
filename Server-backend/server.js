@@ -3,23 +3,23 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
 
-// import { typeDefs, resolvers } from './schemas/index.js';
-import db from './config/connection.js';
+import { typeDefs, resolvers } from './schema/index.js';
+import connectDB from './config/db.js';
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-// });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
 const startApolloServer = async () => {
-  // await server.start();
-  await db();
+  await server.start();
+  
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   
-  // app.use('/graphql', expressMiddleware(server));
+  app.use('/graphql', expressMiddleware(server));
 
   // if we're in production, serve client/dist as static assets
   if (process.env.NODE_ENV === 'production') {
@@ -30,7 +30,7 @@ const startApolloServer = async () => {
     });
   }
   
-  // db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+  connectDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
@@ -39,4 +39,3 @@ const startApolloServer = async () => {
 };
 
 startApolloServer();
-

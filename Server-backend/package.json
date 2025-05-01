@@ -2,6 +2,7 @@
   "name": "node-express-graphql-backend",
   "version": "1.0.0",
   "description": "A Node.js backend using Express and GraphQL",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node server.js",
@@ -10,6 +11,7 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "dotenv": "^8.6.0",
+    "apollo-server-express": "^3.12.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",

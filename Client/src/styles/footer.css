@@ -1,0 +1,43 @@
+.footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text color */
+    margin-top: 20px;
+    font-size: 0.9rem; /* Slightly smaller font size */
+}
+
+.footer-links {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0 0 10px; /* Add spacing below the links */
+    display: flex; /* Display links in a row */
+    justify-content: center; /* Center the links */
+    gap: 20px; /* Add space between the links */
+}
+
+.footer-links li {
+    list-style: none; /* Explicitly remove bullet points */
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+}
+
+.footer-links li::marker {
+    content: ''; /* Remove the marker content */
+}
+
+.footer-link {
+    color: white; /* White text for links */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.footer p {
+    margin: 0; /* Remove extra margin */
+    margin-bottom: 0;
+    font-size: 0.85rem; /* Optional: Adjust font size */
+}
