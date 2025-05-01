@@ -1,5 +1,5 @@
-const { User, SkillOffered, SkillNeeded, Booking } = require('../models');
-const { signToken } = require('../utils/auth');
+import { User, SkillOffered, SkillNeeded, Bookings } from '../models/index.js';
+import { signToken } from '../utils/auth.js';
 
 const resolvers = {
   Query: {
@@ -8,8 +8,9 @@ const resolvers = {
         return await User.findById(context.user._id)
           .populate('skillsOffered')
           .populate('skillsNeeded');
+
+        throw new AuthenticationError('You must be logged in');
       }
-      throw new AuthenticationError('You must be logged in');
     },
     skillsOffered: async () => {
       return SkillOffered.find().populate('userId');
@@ -19,7 +20,7 @@ const resolvers = {
     },
     bookings: async (parent, args, context) => {
       if (context.user) {
-        return Booking.find({ userId: context.user._id });
+        return Bookings.find({ userId: context.user._id });
       }
       throw new AuthenticationError('You must be logged in');
     }
@@ -73,11 +74,13 @@ const resolvers = {
     },
     requestSession: async (parent, { skillId, date }, context) => {
       if (context.user) {
-        return Booking.create({ userId: context.user._id, skillId, date });
+        return Bookings.create({ userId: context.user._id, skillId, date });
       }
       throw new AuthenticationError('You must be logged in');
     }
   }
-};
+}
 
-module.exports = resolvers;
+
+
+export default resolvers;
