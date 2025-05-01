@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
   type User {
@@ -74,4 +74,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;

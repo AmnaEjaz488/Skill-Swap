@@ -1,26 +1,18 @@
 import pkg from 'mongoose';
  const { Schema, model } = pkg;
 
-const skillOffered = new Schema(
+const skillNeeded = new Schema(
   {
     skillName: {
       type: String,
       required: true,
       unique: true,
     },
-    experience: {
-      type: Number,
-      required: true,
-    },
-    skillLevel: {
+    skillDescription: {
       type: String,
       required: true,
-      enum: ['Beginner', 'Intermediate', 'Advanced'],
     },
-    hoursAvailable: {
-      type: Number,
-      required: true,
-    },
+   
     daysAvailable: [{
       type: String,
     }],
@@ -55,4 +47,4 @@ const skillOffered = new Schema(
 
 
 
-export default skillOffered;
+export default skillNeeded;

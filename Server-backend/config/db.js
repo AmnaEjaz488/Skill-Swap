@@ -1,16 +1,7 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
+import mongoose from'mongoose';
+import dotenv from 'dotenv' 
 dotenv.config();
-
-const MONGODB_URI = process.env.MONGODB_URI || '';
-
-if (!process.env.MONGODB_URI) {
-    console.error('Error: MONGODB_URI is not defined in the .env file');
-    process.exit(1);
-}
-
-console.log('Connecting to MongoDB:', process.env.MONGODB_URI);
+console.log(process.env.MONGODB_URI)
 
 const connectDB = async () => {
     try {
@@ -19,8 +10,8 @@ const connectDB = async () => {
             useUnifiedTopology: true,
         });
         console.log('MongoDB connected successfully');
-    } catch (err) {
-        console.error('MongoDB connection failed:', err.message);
+    } catch (error) {
+        console.error('MongoDB connection failed:', error.message);
         process.exit(1);
     }
 };
