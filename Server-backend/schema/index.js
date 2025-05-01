@@ -1,5 +1,9 @@
-// filepath: c:\Users\user\Desktop\bootcamp\skillSwap- project3\Skill-Swap\Server-backend\schema\index.js
-import typeDefs from './typeDefs.js';
-import resolvers from './resolvers.js';
+//import { gql } from '@apollo/server';
+
+/*const typeDefs = gql`
+  type Query {
+    hello: String
+  }
+`;
 
 export { typeDefs, resolvers };

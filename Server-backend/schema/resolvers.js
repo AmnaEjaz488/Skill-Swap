@@ -1,28 +1,30 @@
-import { AuthenticationError } from 'apollo-server-express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
-import SkillOffered from '../models/SkillOffered.js';
-import SkillNeeded from '../models/SkillNeeded.js';
-import Booking from '../models/Booking.js';
+const { User, SkillOffered, SkillNeeded, Booking } = require('../models');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    me: async (_, __, { user }) => {
-      if (!user) {
-        throw new AuthenticationError('You must be logged in');
+    me: async (parent, args, context) => {
+      if (context.user) {
+        return await User.findById(context.user._id)
+          .populate('skillsOffered')
+          .populate('skillsNeeded');
       }
-      return await User.findById(user._id);
+      throw new AuthenticationError('You must be logged in');
     },
-    skillsOffered: async () => await SkillOffered.find(),
-    skillsNeeded: async () => await SkillNeeded.find(),
-    bookings: async (_, __, { user }) => {
-      if (!user) {
-        throw new AuthenticationError('You must be logged in');
+    skillsOffered: async () => {
+      return SkillOffered.find().populate('userId');
+    },
+    skillsNeeded: async () => {
+      return SkillNeeded.find().populate('userId');
+    },
+    bookings: async (parent, args, context) => {
+      if (context.user) {
+        return Booking.find({ userId: context.user._id });
       }
-      return await Booking.find({ userId: user._id });
-    },
+      throw new AuthenticationError('You must be logged in');
+    }
   },
+
   Mutation: {
     signup: async (_, { name, email, password }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -70,13 +72,13 @@ const resolvers = {
       await User.findByIdAndUpdate(user._id, { $pull: { skillsNeeded: skillId } });
       return skill;
     },
-    requestSession: async (_, { skillId, date }, { user }) => {
-      if (!user) {
-        throw new AuthenticationError('You must be logged in');
+    requestSession: async (parent, { skillId, date }, context) => {
+      if (context.user) {
+        return Booking.create({ userId: context.user._id, skillId, date });
       }
-      return await Booking.create({ userId: user._id, skillId, date });
-    },
-  },
+      throw new AuthenticationError('You must be logged in');
+    }
+  }
 };
 
-export default resolvers;
+module.exports = resolvers;

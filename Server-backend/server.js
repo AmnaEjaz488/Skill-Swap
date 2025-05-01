@@ -56,10 +56,8 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
-};
-
-// Connect to MongoDB
-connectDB();
+  
+  connectDB.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Start the server
 app.listen(PORT, () => {

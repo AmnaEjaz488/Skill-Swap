@@ -1,46 +1,56 @@
-import { Schema, model } from 'mongoose';
-import dayjs from 'dayjs'; // Use ES module syntax for dayjs
+import pkg from 'mongoose';
+ const { Schema, model } = pkg;
 
-// Helper function to format dates
+import dayjs from 'dayjs' // ES 2015
 const formatDate = (date) => {
-  return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
-};
+    return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+}
 
-// Define the schema for bookings
-const bookings = new Schema(
-  {
+const bookings = new Schema({
     tutorID: {
       type: Schema.Types.ObjectId,
-      ref: 'User', // Reference the User model
-    },
+      ref: 'User',
+    }
+    ,
     studentId: {
       type: Schema.Types.ObjectId,
-      ref: 'User', // Reference the User model
+      ref: 'User',
       required: true,
     },
+  
     DateTime: {
       type: Date,
       required: true,
-      get: (date) => formatDate(date), // Use the helper function to format dates
-    },
+      get: (date) => formatDate(date)
+    },  
+
     goalsForSession: {
       type: String,
       required: true,
     },
-    Feedback: [
-      {
-        type: String,
-      },
-    ],
+   
+    Feedback: [{
+      type: String,
+    }],
+
+
+
+
   },
+  // set this to use virtual below
   {
     toJSON: {
-      virtuals: true, // Enable virtuals in JSON output
-      getters: true, // Enable getters (e.g., for formatted dates)
+      virtuals: true,
     },
   }
 );
 
-// Create and export the Bookings model
+
+// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
+// userSchema.virtual('bookCount').get(function () {
+//   return this.savedBooks.length;
+// });
+
+
 const Bookings = model('Bookings', bookings);
 export default Bookings;
