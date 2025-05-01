@@ -19,7 +19,8 @@
 //         [key: string]: string;
 //     };
 
-import { Schema, model } from 'mongoose';
+import pkg from 'mongoose';
+ const { Schema, model } = pkg;
 import bcrypt from 'bcrypt';
 
 // import schema from Book.js

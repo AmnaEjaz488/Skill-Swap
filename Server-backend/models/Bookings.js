@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import pkg from 'mongoose';
+ const { Schema, model } = pkg;
 
-const dayjs = require('dayjs')
-//import dayjs from 'dayjs' // ES 2015
+import dayjs from 'dayjs' // ES 2015
 const formatDate = (date) => {
     return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 }
