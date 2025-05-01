@@ -1,31 +1,9 @@
-
-
-// export interface IUser extends Document {
-//     name: string;
-//     email: string;
-//     password: string;
-//     phone: string;
-//     bio?: string;
-//     profilePicture?: string;
-//     skillsOffered?: string[];
-//     skillsNeeded?: string[];
-//     location?: string;
-//     availability?: string;
-//     experience?: string;
-//     education?: string;
-//     certifications?: string[];
-//     languagesSpoken?: string[];
-//     socialMediaLinks?: {
-//         [key: string]: string;
-//     };
-
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 // import schema from Book.js
 import skillOffered from './SkillOffered.js';
 import skillNeeded from './SkillNeeded.js';
-
 
 const userSchema = new Schema (
   {
@@ -46,7 +24,7 @@ const userSchema = new Schema (
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
         },
     bio: {
         type: String,
@@ -60,10 +38,6 @@ const userSchema = new Schema (
             type: String,
             required: false,
             },
-        // availability: {
-        //     type: String,
-        //     required: false,
-        //     },
         experience: {
             type: String,
             required: false,
@@ -114,10 +88,12 @@ userSchema.methods.isCorrectPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
-// userSchema.virtual('bookCount').get(function () {
-//   return this.savedBooks.length;
-// });
+// signup method
+userSchema.statics.signup = async function (name, email, password) {
+  const user = await this.create({ username: name, email, password });
+  const token = signToken(user); // Generate a JWT token
+  return { token, user }; // Return the token and user data
+};
 
 const User = model ('User', userSchema);
 

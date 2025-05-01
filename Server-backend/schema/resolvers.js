@@ -1,9 +1,11 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
-const User = require('../models/User');
+const User = require('./models/User');
 const SkillOffered = require('../models/SkillOffered');
 const SkillNeeded = require('../models/SkillNeeded');
 const Booking = require('../models/Booking');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
   Query: {
@@ -30,12 +32,17 @@ const resolvers = {
   },
 
   Mutation: {
-    signup: async (parent, { name, email, password }) => {
-      const user = await User.create({ username: name, email, password });
-      const token = signToken(user);
-      return { token, user };
+    signup: async (_, { name, email, password }) => {
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.create({ name, email, password: hashedPassword });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return { token, user };
+      } catch (err) {
+        throw new Error('Error creating user: ' + err.message);
+      }
     },
-    login: async (parent, { email, password }) => {
+    login: async (_, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user || !(await user.isCorrectPassword(password))) {
         throw new AuthenticationError('Invalid email or password');
@@ -43,7 +50,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addSkillOffered: async (parent, args, context) => {
+    addSkillOffered: async (_, args, context) => {
       if (context.user) {
         const skill = await SkillOffered.create({ ...args, userId: context.user._id });
         await User.findByIdAndUpdate(context.user._id, { $push: { skillsOffered: skill._id } });
@@ -51,7 +58,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You must be logged in');
     },
-    addSkillNeeded: async (parent, args, context) => {
+    addSkillNeeded: async (_, args, context) => {
       if (context.user) {
         const skill = await SkillNeeded.create({ ...args, userId: context.user._id });
         await User.findByIdAndUpdate(context.user._id, { $push: { skillsNeeded: skill._id } });
@@ -59,7 +66,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You must be logged in');
     },
-    deleteSkillOffered: async (parent, { skillId }, context) => {
+    deleteSkillOffered: async (_, { skillId }, context) => {
       if (context.user) {
         const skill = await SkillOffered.findByIdAndDelete(skillId);
         await User.findByIdAndUpdate(context.user._id, { $pull: { skillsOffered: skillId } });
@@ -67,7 +74,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You must be logged in');
     },
-    deleteSkillNeeded: async (parent, { skillId }, context) => {
+    deleteSkillNeeded: async (_, { skillId }, context) => {
       if (context.user) {
         const skill = await SkillNeeded.findByIdAndDelete(skillId);
         await User.findByIdAndUpdate(context.user._id, { $pull: { skillsNeeded: skillId } });
@@ -75,7 +82,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You must be logged in');
     },
-    requestSession: async (parent, { skillId, date }, context) => {
+    requestSession: async (_, { skillId, date }, context) => {
       if (context.user) {
         return Booking.create({ userId: context.user._id, skillId, date });
       }

@@ -1,42 +1,47 @@
 /* Home Page Styles */
 .home-page {
-    padding: 2px; /* Reduce overall padding */
+    padding: 20px; /* Increased padding for better spacing */
+    background-color: #f9f9f9; /* Light background for better contrast */
 }
 
 /* Hero Section */
 .hero {
     text-align: center;
-    margin-bottom: 5px; /* Reduce bottom margin */
+    margin-bottom: 20px; /* Increased bottom margin for better spacing */
 }
 
 .hero-image {
     width: 100%;
-    max-width: 500px; /* Slightly smaller max width */
+    max-width: 600px; /* Increased max width for larger screens */
     height: auto;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 15px; /* Slightly larger border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow for better emphasis */
 }
 
 .hero h1 {
-    font-size: 2rem; /* Slightly smaller font size */
-    margin: 5px 0; /* Reduce vertical spacing */
+    font-size: 2.5rem; /* Increased font size for better visibility */
+    margin: 10px 0; /* Adjusted vertical spacing */
     color: #4CAF50;
+    font-weight: bold;
 }
 
 .hero p {
-    font-size: 0.80rem; /* Slightly smaller font size */
-    margin-bottom: 2px; /* Reduce bottom margin */
+    font-size: 1rem; /* Slightly larger font size for readability */
+    margin-bottom: 15px; /* Increased bottom margin */
+    color: #555; /* Softer text color */
 }
 
 .cta-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 5px 12px; /* Reduce padding */
-    font-size: 0.9rem; /* Slightly smaller font size */
-    border-radius: 5px;
+    padding: 10px 20px; /* Increased padding for better clickability */
+    font-size: 1rem; /* Larger font size */
+    border-radius: 8px; /* Slightly larger border radius */
     cursor: pointer;
-    margin: 2px; /* Add a small margin if needed */
+    margin: 10px; /* Added margin for spacing */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
 }
 
 .cta-button:hover {
@@ -45,13 +50,13 @@
 
 /* Features Section */
 .features {
-    margin: 5px 5px; /* Reduce margin around the features section */
+    margin: 20px 0; /* Increased margin for better spacing */
 }
 
 .feature-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 3px; /* Reduce the gap between feature cards */
+    gap: 20px; /* Increased gap between feature cards */
     justify-content: center;
 }
 
@@ -61,41 +66,60 @@
     flex-direction: column;
     align-items: center;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden; /* Ensures content stays inside the card */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow intensity */
-    margin: 3px; /* Reduce margin around each card */
-    width: 250px; /* Slightly smaller card width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better emphasis */
+    margin: 10px; /* Increased margin around each card */
+    width: 280px; /* Slightly larger card width */
     background-color: white;
-    padding: 8px; /* Reduce padding inside each card */
+    padding: 15px; /* Increased padding inside each card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.feature-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 
 .feature-card img {
-    width: 150%; /* Make the image fill the card width */
-    height: auto; /* Maintain aspect ratio */
+    width: 100%; /* Ensure the image fills the card width */
+    height: 180px; /* Fixed height for uniformity */
     object-fit: cover; /* Ensures the image fits nicely */
     border-bottom: 1px solid #ddd;
 }
 
 /* Feature Content */
 .feature-card h3 {
-    margin: 5px 0; /* Reduce vertical spacing */
-    font-size: 1.3rem; /* Slightly smaller font size */
+    margin: 10px 0; /* Adjusted vertical spacing */
+    font-size: 1.5rem; /* Larger font size for headings */
+    color: #333; /* Darker text color */
 }
 
 .feature-card p {
     color: #555;
-    font-size: 0.9rem; /* Slightly smaller font size */
+    font-size: 1rem; /* Slightly larger font size */
     text-align: center;
+    margin: 5px 0; /* Adjusted spacing */
 }
 
 /* Footer */
 .footer {
     text-align: center;
-    padding: 5px; /* Add padding inside the footer */
+    padding: 15px; /* Increased padding for better spacing */
     background-color: #4CAF50; /* Set a background color */
     color: white; /* Set text color */
-    margin-top: 10px; /* Correct the margin-top property */
-    font-size: 0.9rem; /* Optional: Adjust font size */
-    border-top: 1px solid #ddd; /* Optional: Add a border at the top */
+    margin-top: 20px; /* Increased margin-top for better separation */
+    font-size: 1rem; /* Adjusted font size */
+    border-top: 2px solid #ddd; /* Slightly thicker border at the top */
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }

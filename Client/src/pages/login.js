@@ -1,46 +1,35 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client'; // Import useMutation
+import { LOGIN } from '../graphql/mutations'; // Import the LOGIN mutation
+import '../styles/login.css'; // Updated import path
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  // Use the LOGIN mutation
+  const [login, { loading }] = useMutation(LOGIN, {
+    onError: (err) => {
+      setError(err.message);
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const query = `
-      mutation Login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-          token
-          user {
-            _id
-            username
-            email
-          }
-        }
-      }
-    `;
-
-    const variables = { email, password };
-
     try {
-      const response = await fetch('http://localhost:3001/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query, variables }),
+      const { data } = await login({
+        variables: { email, password },
       });
 
-      const result = await response.json();
-
-      if (result.data && result.data.login) {
-        const { token } = result.data.login;
+      if (data && data.login) {
+        const { token } = data.login;
 
         // Save the token to localStorage
         localStorage.setItem('token', token);
 
-        console.log('Login successful:', result.data.login.user);
+        console.log('Login successful:', data.login.user);
         setError('');
       } else {
         setError('Invalid email or password');
@@ -52,30 +41,28 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };

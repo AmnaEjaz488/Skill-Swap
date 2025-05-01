@@ -4,12 +4,19 @@ import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
+import { fileURLToPath } from 'url';
+import cors from 'cors';
 import { typeDefs, resolvers } from './schema/index.js';
-import connectDB from './config/db.js';
+import connectDB from './config/db.js';  // Adjusted for import
+
+
+dotenv.config({ path: '../.env' });
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 // Initialize Apollo Server
 const server = new ApolloServer({
@@ -32,13 +39,16 @@ const server = new ApolloServer({
 const startApolloServer = async () => {
   await server.start();
 
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
   // Middleware for Apollo Server
   app.use('/graphql', expressMiddleware(server));
 
   // Serve static assets in production
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -46,15 +56,15 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
-
-  // Connect to MongoDB
-  await connectDB();
-
-  // Start the server
-  app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
-    console.log(`GraphQL endpoint available at http://localhost:${PORT}/graphql`);
-  });
 };
+
+// Connect to MongoDB
+connectDB();
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`API server running on port ${PORT}!`);
+  console.log(`GraphQL endpoint available at http://localhost:${PORT}/graphql`);
+});
 
 startApolloServer();

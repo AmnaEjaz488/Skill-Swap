@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const MONGODB_URI = process.env.MONGODB_URI || '';
+
 if (!process.env.MONGODB_URI) {
     console.error('Error: MONGODB_URI is not defined in the .env file');
     process.exit(1);
@@ -17,8 +19,8 @@ const connectDB = async () => {
             useUnifiedTopology: true,
         });
         console.log('MongoDB connected successfully');
-    } catch (error) {
-        console.error('MongoDB connection failed:', error.message);
+    } catch (err) {
+        console.error('MongoDB connection failed:', err.message);
         process.exit(1);
     }
 };

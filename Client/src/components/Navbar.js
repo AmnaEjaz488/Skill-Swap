@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import '../styles/Navbar.css'; // Import Navbar-specific styles
+import "../styles/Navbar.css"; // Import Navbar-specific styles
 
 const Navbar = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <a href="/">Skill Swap</a>
+        <Link to="/">Skill Swap</Link>
       </div>
       <ul className="nav-links">
-        <li><a href="/">Home</a></li>
-        <li className="dropdown">
-          <a href="/dashboard">Dashboard</a>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li
+          className={`dropdown ${dropdownOpen ? "open" : ""}`}
+          onMouseEnter={toggleDropdown}
+          onMouseLeave={toggleDropdown}
+        >
+          <Link to="/dashboard">Dashboard</Link>
           <ul className="dropdown-menu">
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/skills">Skills</a></li>
-            <li><a href="/Booking">Booking</a></li>
+            <li>
+              <Link to="/skills">Skills</Link>
+            </li>
+            <li>
+              <Link to="/booking">Booking</Link>
+            </li>
           </ul>
         </li>
-        <li><a href="/login">Login</a></li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/signup">Signup</Link>
+        </li>
       </ul>
     </nav>
   );
