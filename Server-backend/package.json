@@ -10,16 +10,15 @@
     "seeds": "node seed.js"
   },
   "dependencies": {
-<<<<<<<<< Temporary merge branch 1:Server-backend/src/package.json
+    "@apollo/server": "^4.12.0",
+    "bcrypt": "^5.1.1",
     "dayjs": "^1.11.13",
     "dotenv": "^8.6.0",
-=========
-    "apollo-server-express": "^3.12.0",
->>>>>>>>> Temporary merge branch 2:Server-backend/package.json
     "express": "^4.17.1",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.5.0",
-    "mongoose": "^5.13.23"
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1"
   },
   "devDependencies": {
     "concurrently": "concurrently \"mongod --dbpath=./server/mongodata/db\" \"node server.js\"",

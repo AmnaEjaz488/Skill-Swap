@@ -1,0 +1,22 @@
+{
+  "name": "skill-swap",
+  "version": "1.0.0",
+  "description": "SkillSwap is a platform where users can exchange skills they’re good at (e.g., guitar, coding, cooking, Photoshop) and learn skills from others in return. It’s a barter-style learning community — no payments, just sharing knowledge.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmnaEjaz488/Skill-Swap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AmnaEjaz488/Skill-Swap/issues"
+  },
+  "homepage": "https://github.com/AmnaEjaz488/Skill-Swap#readme"
+}
