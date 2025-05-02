@@ -10,7 +10,7 @@ export default function Booking() {
     zoomLink:   '',
   });
 
-  // Load all events (seeded + created)
+  // 1) Load all events (seeded + created)
   const fetchEvents = async () => {
     try {
       const res = await fetch('http://localhost:3001/api/events', {
@@ -28,11 +28,7 @@ export default function Booking() {
     fetchEvents();
   }, []);
 
-  // Handle form inputs
-  const handleChange = (e) =>
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-
-  // Create a new event
+  // 2) Create a new event
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -54,7 +50,25 @@ export default function Booking() {
     }
   };
 
-  // Delete a user-created (non-seeded) event
+  // 3) One-click enroll into Google Calendar
+  const handleEnroll = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/events/${id}/enroll`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || res.statusText);
+      }
+      alert('✅ Enrolled! Check your Google Calendar.');
+    } catch (err) {
+      console.error('Enroll failed:', err);
+      alert('Enroll failed: ' + err.message);
+    }
+  };
+
+  // 4) Delete a user-created (non-seeded) event
   const handleDelete = async (id) => {
     if (!window.confirm('Really delete this event?')) return;
     try {
@@ -73,6 +87,10 @@ export default function Booking() {
       alert('Delete failed: ' + err.message);
     }
   };
+
+  // 5) Handle form inputs
+  const handleChange = (e) =>
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   return (
     <div style={{ display:'flex', padding:'1rem' }}>
@@ -94,6 +112,20 @@ export default function Booking() {
             <a href={ev.zoomLink} target="_blank" rel="noopener noreferrer">
               🔗 Zoom Link
             </a>
+            {/* Enroll on ALL events */}
+            <button
+              onClick={() => handleEnroll(ev._id)}
+              style={{
+                marginLeft:'0.5rem',
+                color:'white',
+                background:'green',
+                border:'none',
+                padding:'0.25rem 0.5rem',
+                cursor:'pointer'
+              }}
+            >
+              Enroll
+            </button>
             {/* Only show Delete on events you created (seeded=false) */}
             {!ev.seeded && (
               <button
@@ -118,8 +150,7 @@ export default function Booking() {
       <div style={{ flex:1 }}>
         <h2>Create Event</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            Title:<br/>
+          <label>Title:<br/>
             <input
               name="summary"
               value={form.summary}
@@ -128,8 +159,7 @@ export default function Booking() {
             />
           </label><br/><br/>
 
-          <label>
-            Description:<br/>
+          <label>Description:<br/>
             <textarea
               name="description"
               value={form.description}
@@ -138,8 +168,7 @@ export default function Booking() {
             />
           </label><br/><br/>
 
-          <label>
-            Start:<br/>
+          <label>Start:<br/>
             <input
               type="datetime-local"
               name="start"
@@ -149,8 +178,7 @@ export default function Booking() {
             />
           </label><br/><br/>
 
-          <label>
-            End:<br/>
+          <label>End:<br/>
             <input
               type="datetime-local"
               name="end"
@@ -160,8 +188,7 @@ export default function Booking() {
             />
           </label><br/><br/>
 
-          <label>
-            Zoom Link:<br/>
+          <label>Zoom Link:<br/>
             <input
               name="zoomLink"
               value={form.zoomLink}
