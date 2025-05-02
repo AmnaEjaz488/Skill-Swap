@@ -20,7 +20,10 @@ const Home = () => {
         <h1>Welcome to Skill Swap</h1>
         <p>Learn, Share, Thrive Together.</p>
 
-        <button className="cta-button">Get Started</button>
+        {/* Link the Get Started button to the Signup page */}
+        <Link to="/signup" className="cta-button">
+          Get Started
+        </Link>
       </section>
 
       {/* Features Section */}
@@ -49,7 +52,7 @@ const Home = () => {
               className="feature-image" 
               style={{ width: "270px", height: "180px", objectFit: "cover" }}
             />
-            <h3>Share your Experties</h3>
+            <h3>Share your Expertise</h3>
             <p>Showcase your skills and help others grow.</p>
             <Link to="/skill-offered" className="feature-card-link">
               Explore Skills Offered
