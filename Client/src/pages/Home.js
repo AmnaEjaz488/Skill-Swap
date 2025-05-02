@@ -1,5 +1,6 @@
 import React from "react";
-import '../styles/Home.css'; // Import Home-specific styles
+import { Link } from "react-router-dom";
+import "../styles/Home.css"; // Import Home-specific styles
 import shareSkills from "../assets/shareSkills.jpg";
 import pianoskills from "../assets/pianoskills.jpg";
 import onlineCoaching from "../assets/onlineCoaching.jpg";
@@ -24,41 +25,51 @@ const Home = () => {
 
       {/* Features Section */}
       <section className="features">
-       {/* <h2>Why Choose SkillSwap?</h2>*/}
         <div className="feature-cards">
+          {/* Skill Needed Feature Card */}
           <div className="feature-card">
             <img 
               src={shareSkills} 
-              alt="Learn New Skills" 
+              alt="Skill Needed" 
               className="feature-image" 
               style={{ width: "270px", height: "180px", objectFit: "cover" }}
             />
             <h3>Learn New Skills</h3>
-            <p>Discover a wide range of skills from experts in the community.</p>
+            <p>Find the skills you need to grow and succeed.</p>
+            <Link to="/skill-needed" className="feature-card-link">
+              Explore Skills Needed
+            </Link>
           </div>
 
+          {/* Skill Offered Feature Card */}
           <div className="feature-card">
             <img 
               src={pianoskills}
-              alt="Share Your Expertise" 
+              alt="Skill Offered" 
               className="feature-image" 
               style={{ width: "270px", height: "180px", objectFit: "cover" }}
             />
-            <h3>Share Your Expertise</h3>
-            <p>Teach others and grow your network by sharing your knowledge.</p>
+            <h3>Share your Experties</h3>
+            <p>Showcase your skills and help others grow.</p>
+            <Link to="/skill-offered" className="feature-card-link">
+              Explore Skills Offered
+            </Link>
           </div>
 
+          {/* Flexible Scheduling Feature Card */}
           <div className="feature-card">
             <img 
               src={onlineCoaching} 
-              alt="share your skills" 
+              alt="Flexible Scheduling" 
               className="feature-image" 
               style={{ width: "250px", height: "200px", objectFit: "cover" }}
             />
             <h3>Flexible Scheduling</h3>
             <p>Set your availability and connect with others at your convenience.</p>
+            <Link to="/booking" className="feature-card-link">
+              Book Now
+            </Link>
           </div>
-          
         </div>
       </section>
     </div>

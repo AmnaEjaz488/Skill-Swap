@@ -8,6 +8,8 @@ export const GET_ME = gql`
       name
       email
       bio
+      profilePicture
+      location
       skillsOffered {
         _id
         skillName
@@ -15,12 +17,28 @@ export const GET_ME = gql`
         skillLevel
         hoursAvailable
         daysAvailable
+        bookings {
+          _id
+          date
+          userId {
+            _id
+            name
+          }
+        }
       }
       skillsNeeded {
         _id
         skillName
         skillDescription
         daysAvailable
+        bookings {
+          _id
+          date
+          userId {
+            _id
+            name
+          }
+        }
       }
     }
   }
@@ -39,6 +57,15 @@ export const GET_SKILLS_OFFERED = gql`
       userId {
         _id
         name
+        email
+      }
+      bookings {
+        _id
+        date
+        userId {
+          _id
+          name
+        }
       }
     }
   }
@@ -55,6 +82,15 @@ export const GET_SKILLS_NEEDED = gql`
       userId {
         _id
         name
+        email
+      }
+      bookings {
+        _id
+        date
+        userId {
+          _id
+          name
+        }
       }
     }
   }
@@ -68,8 +104,13 @@ export const GET_BOOKINGS = gql`
       userId {
         _id
         name
+        email
       }
-      skillId
+      skillId {
+        _id
+        skillName
+        skillLevel
+      }
       date
     }
   }

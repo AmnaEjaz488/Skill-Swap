@@ -5,10 +5,7 @@
   padding: 20px 30px;
   text-align: center;
   font-size: 16px;
-  
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
+  margin-top: 20px; /* Add spacing between the footer and the content */
 }
 
 .footer-container {
@@ -26,7 +23,7 @@
 }
 
 .footer-link {
-    color: white;
+  color: white;
   text-decoration: none;
   font-size: 16px;
 }

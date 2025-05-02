@@ -10,6 +10,8 @@ import Signup from './pages/signup';
 import Booking from './pages/Booking';
 import MyCalendar from './pages/MyCalendar.js';
 import PrivacyPolicy from './pages/privacypolicy';
+import SkillNeeded from './pages/SkillNeeded';
+import SkillOffered from './pages/SkillOffered';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Dashboard = () => <h1>User Dashboard</h1>;
@@ -45,6 +47,8 @@ const App = () => {
                 <Route path="/booking" element={<ProtectedRoute element={<Booking />} />} />
                 <Route path="/my-calendar" element={<ProtectedRoute element={<MyCalendar />} />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/skill-needed" element={<SkillNeeded />} /> {/* Corrected route */}
+                <Route path="/skill-offered" element={<SkillOffered />} /> {/* Corrected route */}
             </Routes>
             <Footer />
         </Router>
