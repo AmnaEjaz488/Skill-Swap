@@ -7,12 +7,17 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <ul className="footer-links">
-          <li><Link to="/about" className="footer-link">About</Link></li>
-          <li><Link to="/contact" className="footer-link">Contact</Link></li>
-          <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
-          <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+          </li>
         </ul>
-        <p>&copy; 2025 Skill Swap. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Skill Swap. All rights reserved.</p>
       </div>
     </footer>
   );

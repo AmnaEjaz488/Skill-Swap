@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import Booking from './pages/Booking';
 import MyCalendar from './pages/MyCalendar.js';
+import PrivacyPolicy from './pages/privacypolicy';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Dashboard = () => <h1>User Dashboard</h1>;
@@ -43,6 +44,7 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/booking" element={<ProtectedRoute element={<Booking />} />} />
                 <Route path="/my-calendar" element={<ProtectedRoute element={<MyCalendar />} />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
             <Footer />
         </Router>
