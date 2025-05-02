@@ -1,9 +1,14 @@
 .footer {
+  width: 100%; /* Make the footer span the full width of the page */
   background-color: #343a40; /* Dark gray */
   color: white;
   padding: 20px 30px;
   text-align: center;
   font-size: 16px;
+  
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .footer-container {
