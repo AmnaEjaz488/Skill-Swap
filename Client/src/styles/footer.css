@@ -1,43 +1,42 @@
 .footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text color */
-    margin-top: 20px;
-    font-size: 0.9rem; /* Slightly smaller font size */
+  width: 100%; /* Make the footer span the full width of the page */
+  background-color: #343a40; /* Dark gray */
+  color: white;
+  padding: 20px 30px;
+  text-align: center;
+  font-size: 16px;
+  
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .footer-links {
-    list-style: none; /* Remove bullet points */
-    padding: 0;
-    margin: 0 0 10px; /* Add spacing below the links */
-    display: flex; /* Display links in a row */
-    justify-content: center; /* Center the links */
-    gap: 20px; /* Add space between the links */
-}
-
-.footer-links li {
-    list-style: none; /* Explicitly remove bullet points */
-    margin: 0; /* Reset margin */
-    padding: 0; /* Reset padding */
-}
-
-.footer-links li::marker {
-    content: ''; /* Remove the marker content */
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .footer-link {
-    color: white; /* White text for links */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold;
+    color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
 
 .footer-link:hover {
-    text-decoration: underline; /* Add underline on hover */
+  text-decoration: underline;
 }
 
 .footer p {
-    margin: 0; /* Remove extra margin */
-    margin-bottom: 0;
-    font-size: 0.85rem; /* Optional: Adjust font size */
+  margin: 0;
+  font-size: 14px;
+  color: #adb5bd; /* Lighter gray for text */
 }

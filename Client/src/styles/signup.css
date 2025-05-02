@@ -1,0 +1,87 @@
+/* General Signup Page Styles */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(120vh - 100px); /* Adjust height to account for the navbar */
+  background-color: #f9f9f9; /* Light background */
+  padding: 20px;
+  margin-top: 150px; /* Add space below the navbar */
+}
+
+.signup-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  max-width: 400px; /* Limit form width */
+}
+
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #4CAF50; /* Green color for the heading */
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.signup-form input:focus {
+  outline: none;
+  border-color: #4CAF50; /* Green border on focus */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle green glow */
+}
+
+.signup-form button {
+  width: 100%;
+  background-color: #4CAF50; /* Green button */
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.error-message {
+  color: #dc3545; /* Red for error messages */
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.success-message {
+  color: #28a745; /* Green for success messages */
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .signup-form {
+    padding: 20px;
+  }
+
+  .signup-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .signup-form button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
