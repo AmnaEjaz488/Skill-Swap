@@ -25,12 +25,19 @@ const Navbar = () => {
         >
           <Link to="/dashboard">Dashboard</Link>
           <ul className="dropdown-menu">
+<<<<<<< HEAD
             <li>
               <Link to="/skills">Skills</Link>
             </li>
             <li>
               <Link to="/booking">Booking</Link>
             </li>
+=======
+            <li><a href="/Profile">Profile</a></li>
+            <li><a href="/skills">Skills</a></li>
+            <li><a href="/Booking">Booking</a></li>
+            <li><a href="/my-calendar">Calendar</a></li>
+>>>>>>> 25945da43429f90bf0535410fa72e24baa3fda5a
           </ul>
         </li>
         <li>
