@@ -13,9 +13,10 @@ const Navbar = () => {
         <li className="dropdown">
           <a href="/dashboard">Dashboard</a>
           <ul className="dropdown-menu">
-            <li><a href="/profile">Profile</a></li>
+            <li><a href="/Profile">Profile</a></li>
             <li><a href="/skills">Skills</a></li>
             <li><a href="/Booking">Booking</a></li>
+            <li><a href="/my-calendar">Calendar</a></li>
           </ul>
         </li>
         <li><a href="/login">Login</a></li>
