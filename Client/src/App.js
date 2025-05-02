@@ -7,7 +7,7 @@ import Home     from './pages/Home';
 import About    from './pages/About';
 import Contact  from './pages/Contact';
 import Booking  from './pages/Booking';
-import Profile    from './pages/Profile';
+import Profile    from './pages/profile';
 import MyCalendar from './pages/MyCalendar.js'; 
 
 const Dashboard = () => <h1>User Dashboard</h1>;
