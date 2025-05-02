@@ -29,8 +29,8 @@ const Signup = () => {
         const { token } = data.signup;
 
         // Save the token to localStorage
-        localStorage.setItem('token', token);
-
+        localStorage.setItem('jwtToken', token);
+        
         console.log('Signup successful:', data.signup.user);
         setError('');
         setSuccess(true);

@@ -1,9 +1,27 @@
 import React from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider as Provider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider as Provider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql', // Ensure this matches your backend GraphQL endpoint
+});
+
+const authLink = setContext((_, { headers }) => {
+  // Get the token from localStorage
+  const token = localStorage.getItem('jwtToken');
+
+  // Return the headers with the Authorization token
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: '/graphql', // Replace with your GraphQL server URL
-  cache: new InMemoryCache(), // this remmeber the data and we dont have to ask clinet again for information
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
 });
 
 const ApolloProvider = ({ children }) => {

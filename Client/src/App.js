@@ -1,33 +1,46 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './pages/Home'; 
+import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Login from './pages/login';
+import Signup from './pages/signup';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './pages/login'; // Keep this import
-import Signup from './pages/signup'; // Import the Signup page
 
 const Dashboard = () => <h1>User Dashboard</h1>;
 const Profile = () => <h1>User Profile</h1>;
 const Chat = () => <h1>Chat</h1>;
 
 const App = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    // Check for JWT token in localStorage
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        setIsAuthenticated(!!token); // Set to true if token exists
+    }, []);
+
+    // Protected Route Component
+    const ProtectedRoute = ({ element }) => {
+        return isAuthenticated ? element : <Navigate to="/login" />;
+    };
+
     return (
         <Router>
             <Navbar />
             <Routes>
-                <Route path="/" element={<Home />} /> {/* Render Home.js as the landing page */}
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/login" element={<Login />} /> {/* Use the imported Login component */}
-                <Route path="/signup" element={<Signup />} /> {/* Add the Signup route */}
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+                <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+                <Route path="/chat" element={<ProtectedRoute element={<Chat />} />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
             </Routes>
-            <Footer /> {/* Add Footer here */}
+            <Footer />
         </Router>
     );
 };

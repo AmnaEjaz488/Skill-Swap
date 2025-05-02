@@ -2,6 +2,7 @@ import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
+import cors from 'cors';
 
 import { typeDefs, resolvers } from './schema/index.js';
 import connectDB from './config/connection.js'; // Ensure this points to your connection.js file
@@ -21,6 +22,11 @@ const startApolloServer = async () => {
 
     // Start Apollo Server
     await server.start();
+// added cors to fixed fetch error- amna
+    app.use(cors({
+      origin: 'http://localhost:3000', // Allow requests from this origin
+      credentials: true, // Allow cookies and credentials
+    }));
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
@@ -30,7 +36,6 @@ const startApolloServer = async () => {
     // Serve static assets in production
     if (process.env.NODE_ENV === 'production') {
       app.use(express.static(path.join(__dirname, '../client/dist')));
-
       app.get('*', (_req, res) => {
         res.sendFile(path.join(__dirname, '../client/dist/index.html'));
       });
