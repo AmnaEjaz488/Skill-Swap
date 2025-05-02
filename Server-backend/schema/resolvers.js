@@ -1,6 +1,8 @@
 import { User, SkillOffered, SkillNeeded, Bookings } from '../models/index.js';
 import { signToken } from '../utils/auth.js';
 
+import { AuthenticationError } from 'apollo-server-errors';
+
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
@@ -8,9 +10,8 @@ const resolvers = {
         return await User.findById(context.user._id)
           .populate('skillsOffered')
           .populate('skillsNeeded');
-
-        throw new AuthenticationError('You must be logged in');
       }
+      throw new AuthenticationError('You must be logged in');
     },
     skillsOffered: async () => {
       return SkillOffered.find().populate('userId');
@@ -27,8 +28,8 @@ const resolvers = {
   },
 
   Mutation: {
-    signup: async (parent, { name, email, password }) => {
-      const user = await User.create({ name, email, password });
+    signup: async (parent, { name, username, phone, email, password }) => {
+      const user = await User.create({ name, username, phone, email, password });
       const token = signToken(user);
       return { token, user };
     },

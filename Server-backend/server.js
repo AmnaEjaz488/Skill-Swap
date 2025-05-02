@@ -3,15 +3,27 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
 import cors from 'cors';
-
+import { authenticateToken } from './utils/auth.js'; // Correct import
 import { typeDefs, resolvers } from './schema/index.js';
-import connectDB from './config/connection.js'; // Ensure this points to your connection.js file
+import connectDB from './config/connection.js';
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => {
+    // Use authenticateToken to attach the user to the context
+    return new Promise((resolve, reject) => {
+      authenticateToken(req, {}, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ user: req.user });
+        }
+      });
+    });
+  },
 });
 
 const startApolloServer = async () => {
@@ -22,7 +34,8 @@ const startApolloServer = async () => {
 
     // Start Apollo Server
     await server.start();
-// added cors to fixed fetch error- amna
+
+    // Added CORS to fix fetch error
     app.use(cors({
       origin: 'http://localhost:3000', // Allow requests from this origin
       credentials: true, // Allow cookies and credentials
