@@ -21,21 +21,22 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const { data } = await signup({
+      const  data  = await signup({
         variables: { name, email, password },
       });
-
+console.log(data)
       if (data && data.signup) {
         const { token } = data.signup;
 
         // Save the token to localStorage
         localStorage.setItem('jwtToken', token);
-        
+       // console.log(token)
         console.log('Signup successful:', data.signup.user);
         setError('');
         setSuccess(true);
       } else {
         setError('Signup failed. Please try again.');
+      
       }
     } catch (err) {
       console.error('Error during signup:', err);

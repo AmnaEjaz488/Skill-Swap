@@ -14,7 +14,7 @@ export const SIGNUP = gql`
   }
 `;
 
-// Mutation to log in a user
+// Mutation to log in an existing user
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {

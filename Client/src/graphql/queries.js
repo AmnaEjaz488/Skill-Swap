@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-// Query to fetch the current user
+// Query to get the logged-in user's data
 export const GET_ME = gql`
   query Me {
     me {
@@ -13,19 +13,22 @@ export const GET_ME = gql`
         skillName
         experience
         skillLevel
+        hoursAvailable
+        daysAvailable
       }
       skillsNeeded {
         _id
         skillName
         skillDescription
+        daysAvailable
       }
     }
   }
 `;
 
-// Query to fetch all skills offered
+// Query to get all skills offered
 export const GET_SKILLS_OFFERED = gql`
-  query GetSkillsOffered {
+  query SkillsOffered {
     skillsOffered {
       _id
       skillName
@@ -36,15 +39,14 @@ export const GET_SKILLS_OFFERED = gql`
       userId {
         _id
         name
-        email
       }
     }
   }
 `;
 
-// Query to fetch all skills needed
+// Query to get all skills needed
 export const GET_SKILLS_NEEDED = gql`
-  query GetSkillsNeeded {
+  query SkillsNeeded {
     skillsNeeded {
       _id
       skillName
@@ -53,15 +55,14 @@ export const GET_SKILLS_NEEDED = gql`
       userId {
         _id
         name
-        email
       }
     }
   }
 `;
 
-// Query to fetch bookings
+// Query to get bookings for the logged-in user
 export const GET_BOOKINGS = gql`
-  query GetBookings {
+  query Bookings {
     bookings {
       _id
       userId {
