@@ -6,13 +6,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-<<<<<<< HEAD
+
     "dev": "nodemon server.js",
     "seeds": "node seed.js"
-=======
+
     "dev": "node server.js",
     "seed": "node seeds.js"
->>>>>>> 25945da43429f90bf0535410fa72e24baa3fda5a
+
   },
   "dependencies": {
     "@apollo/server": "^4.12.0",
@@ -20,13 +20,13 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^8.6.0",
-<<<<<<< HEAD
+
     "express": "^4.17.1",
     "graphql": "^16.11.0",
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.1"
-=======
+
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "googleapis": "^148.0.0",
@@ -34,7 +34,6 @@
     "install": "^0.13.0",
     "mongoose": "^5.13.23",
     "npm": "^11.3.0"
->>>>>>> 25945da43429f90bf0535410fa72e24baa3fda5a
   },
   "devDependencies": {
     "concurrently": "concurrently \"mongod --dbpath=./server/mongodata/db\" \"node server.js\"",
