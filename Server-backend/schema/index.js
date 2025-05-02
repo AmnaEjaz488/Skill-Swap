@@ -1,9 +1,4 @@
-//import { gql } from '@apollo/server';
+import typeDefs from './typeDefs.js';
+import resolvers from './resolvers.js';
 
-/*const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-export default typeDefs, reseolvers*/
+export { typeDefs, resolvers };
