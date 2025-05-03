@@ -1,18 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {
+       BrowserRouter as Router,
+       Routes,
+       Route,
+       Navigate
+     } from 'react-router-dom';
 
-import Navbar   from './components/Navbar';
-import Footer   from './components/Footer';
-import Home     from './pages/Home';
-import About    from './pages/About';
-import Contact  from './pages/Contact';
-import Booking  from './pages/Booking';
-import Profile    from './pages/Profile';
-import MyCalendar from './pages/MyCalendar.js'; 
+import Home           from './pages/Home';
+import Dashboard      from './pages/Dashboard.js';
+import Profile        from './pages/Profile';
+import Booking        from './pages/Booking';
+import MyCalendar     from './pages/MyCalendar';
+import Login          from './pages/Login';
+import Signup         from './pages/Signup';
+import PrivacyPolicy  from './pages/PrivacyPolicy';
+import SkillNeeded    from './pages/SkillNeeded';
+import SkillOffered   from './pages/SkillOffered';
+import Chat           from './pages/Chat';
+import About          from './pages/About';
+import Contact        from './pages/Contact';
 
-const Dashboard = () => <h1>User Dashboard</h1>;
-const Profile = () => <h1>User Profile</h1>;
-const Chat = () => <h1>Chat</h1>;
+import Navbar         from './components/Navbar';
+import Footer         from './components/Footer';
+
+
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,8 +54,8 @@ const App = () => {
                 <Route path="/booking" element={<ProtectedRoute element={<Booking />} />} />
                 <Route path="/my-calendar" element={<ProtectedRoute element={<MyCalendar />} />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/skill-needed" element={<SkillNeeded />} /> {/* Corrected route */}
-                <Route path="/skill-offered" element={<SkillOffered />} /> {/* Corrected route */}
+                <Route path="/skill-needed" element={<SkillNeeded />} />
+                <Route path="/skill-offered" element={<SkillOffered />} />
             </Routes>
             <Footer />
         </Router>

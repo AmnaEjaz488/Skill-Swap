@@ -7,15 +7,10 @@ import session from 'express-session';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
-<<<<<<< HEAD
-import cors from 'cors';
-import { authenticateToken } from './utils/auth.js'; // Correct import
+import { authenticateToken } from './utils/auth.js';
 import { typeDefs, resolvers } from './schema/index.js';
-import connectDB from './config/connection.js';
-=======
 import { fileURLToPath } from 'url';
 import { google } from 'googleapis';
-
 import eventsRouter from './routes/api/events.js';
 import calendarRouter from './routes/api/calendar.js';
 
@@ -44,11 +39,10 @@ async function connectDB() {
   });
   console.log('✅ MongoDB connected');
 }
->>>>>>> 25945da43429f90bf0535410fa72e24baa3fda5a
 
 const app = express();
-<<<<<<< HEAD
-const server = new ApolloServer({
+
+ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
@@ -103,7 +97,6 @@ const startApolloServer = async () => {
 };
 
 startApolloServer();
-=======
 
 // === Middleware ===
 app.use(
@@ -161,15 +154,3 @@ if (NODE_ENV === 'production') {
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
-
-// === Start Server ===
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`🚀 Server listening on http://localhost:${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('Failed to start server:', err);
-  });
->>>>>>> 25945da43429f90bf0535410fa72e24baa3fda5a
