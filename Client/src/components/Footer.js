@@ -5,11 +5,20 @@ import '../styles/footer.css';
 const Footer = () => {
   return (
     <footer className="footer">
-      <ul className="footer-links">
-        <li><Link to="/about" className="footer-link">About</Link></li>
-        <li><Link to="/contact" className="footer-link">Contact</Link></li>
-      </ul>
-      <p>&copy; 2025 Skill Swap. All rights reserved.</p>
+      <div className="footer-container">
+        <ul className="footer-links">
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+          </li>
+        </ul>
+        <p>&copy; {new Date().getFullYear()} Skill Swap. All rights reserved.</p>
+      </div>
     </footer>
   );
 };

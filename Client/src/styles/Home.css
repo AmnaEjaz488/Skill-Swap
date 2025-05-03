@@ -1,42 +1,52 @@
 /* Home Page Styles */
 .home-page {
-    padding: 2px; /* Reduce overall padding */
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+    background-color: #f9f9f9;
 }
 
 /* Hero Section */
 .hero {
     text-align: center;
-    margin-bottom: 5px; /* Reduce bottom margin */
+    margin-bottom: 40px;
 }
 
 .hero-image {
     width: 100%;
-    max-width: 500px; /* Slightly smaller max width */
+    max-width: 600px;
     height: auto;
     margin: 0 auto;
-    border-radius: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .hero h1 {
-    font-size: 2rem; /* Slightly smaller font size */
-    margin: 5px 0; /* Reduce vertical spacing */
+    font-size: 2.5rem;
+    margin: 10px 0;
     color: #4CAF50;
+    font-weight: bold;
 }
 
 .hero p {
-    font-size: 0.80rem; /* Slightly smaller font size */
-    margin-bottom: 2px; /* Reduce bottom margin */
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #555;
 }
 
 .cta-button {
+    display: inline-block;
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 5px 12px; /* Reduce padding */
-    font-size: 0.9rem; /* Slightly smaller font size */
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 2px; /* Add a small margin if needed */
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
@@ -45,57 +55,65 @@
 
 /* Features Section */
 .features {
-    margin: 5px 5px; /* Reduce margin around the features section */
+    text-align: center;
 }
 
 .feature-cards {
     display: flex;
-    flex-wrap: wrap;
-    gap: 3px; /* Reduce the gap between feature cards */
     justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 /* Feature Card Container */
 .feature-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ddd;
+    background-color: #f9f9f9;
     border-radius: 8px;
-    overflow: hidden; /* Ensures content stays inside the card */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce shadow intensity */
-    margin: 3px; /* Reduce margin around each card */
-    width: 250px; /* Slightly smaller card width */
-    background-color: white;
-    padding: 8px; /* Reduce padding inside each card */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 300px;
 }
 
-.feature-card img {
-    width: 150%; /* Make the image fill the card width */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensures the image fits nicely */
-    border-bottom: 1px solid #ddd;
-}
-
-/* Feature Content */
 .feature-card h3 {
-    margin: 5px 0; /* Reduce vertical spacing */
-    font-size: 1.3rem; /* Slightly smaller font size */
+    color: #4CAF50;
+    margin-bottom: 10px;
 }
 
 .feature-card p {
-    color: #555;
-    font-size: 0.9rem; /* Slightly smaller font size */
-    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.feature-card-link {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 /* Footer */
 .footer {
     text-align: center;
-    padding: 5px; /* Add padding inside the footer */
-    background-color: #4CAF50; /* Set a background color */
-    color: white; /* Set text color */
-    margin-top: 10px; /* Correct the margin-top property */
-    font-size: 0.9rem; /* Optional: Adjust font size */
-    border-top: 1px solid #ddd; /* Optional: Add a border at the top */
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    margin-top: 20px;
+    font-size: 1rem;
+    border-top: 2px solid #ddd;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 0.9rem;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }

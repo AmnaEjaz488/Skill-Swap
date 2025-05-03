@@ -1,13 +1,18 @@
 {
-  "name": "node-express-graphql-backend",
+  "name": "skill-swap-backend",
   "version": "1.0.0",
-  "description": "A Node.js backend using Express and GraphQL",
   "type": "module",
-  "main": "src/index.js",
+  "description": "A Node.js backend using Express and GraphQL",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
+
+    "dev": "nodemon server.js",
+    "seeds": "node seed.js"
+
     "dev": "node server.js",
     "seed": "node seeds.js"
+
   },
   "dependencies": {
     "@apollo/server": "^4.12.0",
@@ -15,6 +20,13 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^8.6.0",
+
+    "express": "^4.17.1",
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1"
+
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "googleapis": "^148.0.0",
@@ -24,7 +36,8 @@
     "npm": "^11.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "concurrently": "concurrently \"mongod --dbpath=./server/mongodata/db\" \"node server.js\"",
+    "nodemon": "^2.0.22"
   },
   "author": "Your Name",
   "license": "MIT"

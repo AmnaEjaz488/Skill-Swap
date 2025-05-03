@@ -1,12 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Use 'react-dom/client' for React 18
+import ReactDOM from 'react-dom/client';
+
+import './styles/index.css';
 import App from './App';
+
 import './styles/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
+import ApolloProvider from './apollo/ApolloProvider'; // Correct path
 
-const root = ReactDOM.createRoot(document.getElementById('root')); // Create a root
+const root = ReactDOM.createRoot(document.getElementById('root')); // Use createRoot
 root.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
 );
