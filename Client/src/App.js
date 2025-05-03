@@ -12,7 +12,7 @@ import Profile        from './pages/profile';
 import Booking        from './pages/Booking';
 import MyCalendar     from './pages/MyCalendar';
 import Login          from './pages/login';
-import Signup         from './pages/signup';
+import Signup         from './pages/signup.js';
 import PrivacyPolicy  from './pages/privacypolicy';
 import SkillNeeded    from './pages/SkillNeeded';
 import SkillOffered   from './pages/SkillOffered';
@@ -30,7 +30,7 @@ const App = () => {
     // Check for JWT token in localStorage
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
-        setIsAuthenticated(!!token); // Set to true if token exists
+        setIsAuthenticated(!!token); 
     }, []);
 
     // Protected Route Component

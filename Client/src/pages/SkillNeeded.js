@@ -38,13 +38,15 @@ const SkillNeeded = () => {
     <div className="skill-needed-page">
       <h1>Skills Needed</h1>
       <ul>
-        {data.skillsNeeded.map((skill) => (
+        {data?.skillsNeeded?.map((skill) => (
           <li key={skill._id}>
             <strong>{skill.skillName}</strong>: {skill.skillDescription}
             <br />
-            <em>Available Days: {skill.daysAvailable.join(', ')}</em>
+            <em>Available Days: {skill.daysAvailable?.join(', ')}</em>
             <br />
-            <small>Requested by: {skill.userId.username} ({skill.userId.email})</small>
+            <small>
+              Requested by: {skill.userId?.username} ({skill.userId?.email})
+            </small>
           </li>
         ))}
       </ul>
