@@ -8,18 +8,17 @@ import {
 
 import Home           from './pages/Home';
 import Dashboard      from './pages/Dashboard.js';
-import Profile        from './pages/Profile';
+import Profile        from './pages/profile';
 import Booking        from './pages/Booking';
 import MyCalendar     from './pages/MyCalendar';
-import Login          from './pages/Login';
-import Signup         from './pages/Signup';
-import PrivacyPolicy  from './pages/PrivacyPolicy';
+import Login          from './pages/login';
+import Signup         from './pages/signup';
+import PrivacyPolicy  from './pages/privacypolicy';
 import SkillNeeded    from './pages/SkillNeeded';
 import SkillOffered   from './pages/SkillOffered';
 import Chat           from './pages/Chat';
 import About          from './pages/About';
 import Contact        from './pages/Contact';
-
 import Navbar         from './components/Navbar';
 import Footer         from './components/Footer';
 
