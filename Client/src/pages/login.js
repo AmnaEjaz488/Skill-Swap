@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client'; // Import useMutation
-import { LOGIN } from '../graphql/mutations'; // Import the LOGIN mutation
-import '../styles/login.css'; // Updated import path
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../graphql/mutations';
+import '../styles/login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   // Use the LOGIN mutation
   const [login, { loading }] = useMutation(LOGIN, {
@@ -15,52 +19,62 @@ const Login = () => {
     },
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
 
     try {
       const { data } = await login({
-        variables: { email, password },
+        variables: {
+          email: formData.email, // Ensure this matches the input field name
+          password: formData.password, // Ensure this matches the input field name
+        },
       });
 
       if (data && data.login) {
-        const { token } = data.login;
-
-        // Save the token to localStorage
-        localStorage.setItem('token', token);
-
-        console.log('Login successful:', data.login.user);
-        setError('');
-      } else {
-        setError('Invalid email or password');
+        setSuccess('Login successful!');
+        localStorage.setItem('token', data.login.token); // Save token to localStorage
+        setFormData({
+          email: '',
+          password: '',
+        });
       }
     } catch (err) {
-      console.error('Error during login:', err);
-      setError('Something went wrong. Please try again.');
+      console.error('Login failed:', err);
+      setError('Login failed. Please try again.');
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
+    <div className="login-page">
+      <h1>Login</h1>
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
+      <form onSubmit={handleSubmit}>
         <input
           type="email"
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
           required
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           required
         />
-        {error && <p className="error-message">{error}</p>}
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Logging in...' : 'Log In'}
         </button>
       </form>
     </div>

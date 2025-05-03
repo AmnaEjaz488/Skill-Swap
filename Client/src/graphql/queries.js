@@ -98,20 +98,40 @@ export const GET_SKILLS_NEEDED = gql`
 
 // Query to get bookings for the logged-in user
 export const GET_BOOKINGS = gql`
-  query Bookings {
+  query GetBookings {
     bookings {
       _id
-      userId {
+      tutorID {
         _id
-        name
-        email
+        username
       }
-      skillId {
+      studentId {
         _id
-        skillName
-        skillLevel
+        username
       }
-      date
+      DateTime
+      goalsForSession
+      Feedback
+    }
+  }
+`;
+
+// Query to get a specific booking
+export const GET_BOOKING = gql`
+  query GetBooking($id: ID!) {
+    booking(id: $id) {
+      _id
+      tutorID {
+        _id
+        username
+      }
+      studentId {
+        _id
+        username
+      }
+      DateTime
+      goalsForSession
+      Feedback
     }
   }
 `;

@@ -1,21 +1,52 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_SKILLS_OFFERED } from '../graphql/queries';
+import { useQuery, gql } from '@apollo/client';
 import '../styles/skillOffered.css';
+
+// Define the GraphQL query
+export const GET_SKILLS_OFFERED = gql`
+  query GetSkillsOffered {
+    skillsOffered {
+      _id
+      skillName
+      experience
+      skillLevel
+      hoursAvailable
+      daysAvailable
+      bookings {
+        _id
+        date
+        userId {
+          _id
+          username
+        }
+      }
+      userId {
+        _id
+        username
+        email
+      }
+    }
+  }
+`;
 
 const SkillOffered = () => {
   const { loading, error, data } = useQuery(GET_SKILLS_OFFERED);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p className="error">An error occurred: {error.message}</p>;
 
   return (
     <div className="skill-offered-page">
-      <h1>Skill Offered</h1>
+      <h1>Skills Offered</h1>
       <ul>
         {data.skillsOffered.map((skill) => (
           <li key={skill._id}>
-            <strong>{skill.skillName}</strong> - {skill.skillLevel} ({skill.experience} years)
+            <strong>{skill.skillName}</strong>
+            <p>Experience: {skill.experience} years</p>
+            <p>Skill Level: {skill.skillLevel}</p>
+            <p>Hours Available: {skill.hoursAvailable}</p>
+            <p>Days Available: {skill.daysAvailable.join(', ')}</p>
+            <p>Offered by: {skill.userId?.username} ({skill.userId?.email})</p>
           </li>
         ))}
       </ul>

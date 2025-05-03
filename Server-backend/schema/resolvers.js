@@ -1,11 +1,10 @@
 import { User, SkillOffered, SkillNeeded, Bookings } from '../models/index.js';
 import { signToken } from '../utils/auth.js';
-
 import { AuthenticationError } from 'apollo-server-errors';
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    me: async (_parent, _args, context) => {
       if (context.user) {
         return await User.findById(context.user._id)
           .populate('skillsOffered')
@@ -24,7 +23,7 @@ const resolvers = {
         return Bookings.find({ userId: context.user._id });
       }
       throw new AuthenticationError('You must be logged in');
-    }
+    },
   },
 
   Mutation: {
@@ -78,10 +77,8 @@ const resolvers = {
         return Bookings.create({ userId: context.user._id, skillId, date });
       }
       throw new AuthenticationError('You must be logged in');
-    }
-  }
-}
-
-
+    },
+  },
+};
 
 export default resolvers;

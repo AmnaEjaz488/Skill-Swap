@@ -1,22 +1,33 @@
 import { gql } from '@apollo/client';
 
-// Mutation to sign up a new user
+// Mutation for signing up a user
 export const SIGNUP = gql`
-  mutation Signup($name: String!, $username: String!, $phone: String!, $email: String!, $password: String!) {
-    signup(name: $name, username: $username, phone: $phone, email: $email, password: $password) {
+  mutation Signup(
+    $name: String!
+    $username: String!
+    $phone: String!
+    $email: String!
+    $password: String!
+  ) {
+    signup(
+      name: $name
+      username: $username
+      phone: $phone
+      email: $email
+      password: $password
+    ) {
       token
       user {
         _id
         name
         username
-        phone
         email
       }
     }
   }
 `;
 
-// Mutation to log in an existing user
+// Mutation for logging in a user
 export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -24,6 +35,7 @@ export const LOGIN = gql`
       user {
         _id
         name
+        username
         email
       }
     }
@@ -108,5 +120,42 @@ export const REQUEST_SESSION = gql`
       skillId
       date
     }
+  }
+`;
+
+// Mutation to create a booking
+export const CREATE_BOOKING = gql`
+  mutation CreateBooking($input: BookingInput!) {
+    createBooking(input: $input) {
+      _id
+      tutorID {
+        _id
+        username
+      }
+      studentId {
+        _id
+        username
+      }
+      DateTime
+      goalsForSession
+      Feedback
+    }
+  }
+`;
+
+// Mutation to add feedback
+export const ADD_FEEDBACK = gql`
+  mutation AddFeedback($bookingId: ID!, $feedback: String!) {
+    addFeedback(bookingId: $bookingId, feedback: $feedback) {
+      _id
+      Feedback
+    }
+  }
+`;
+
+// Mutation to delete a booking
+export const DELETE_BOOKING = gql`
+  mutation DeleteBooking($id: ID!) {
+    deleteBooking(id: $id)
   }
 `;
