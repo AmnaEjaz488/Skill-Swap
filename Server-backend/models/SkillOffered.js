@@ -1,5 +1,5 @@
 import pkg from 'mongoose';
- const { Schema, model } = pkg;
+const { Schema, model } = pkg;
 
 const skillOffered = new Schema(
   {
@@ -21,25 +21,23 @@ const skillOffered = new Schema(
       type: Number,
       required: true,
     },
-    daysAvailable: [{
-      type: String,
-    }],
-    bookings: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Bookings',
-
-    }],
+    daysAvailable: [
+      {
+        type: String,
+      },
+    ],
+    bookings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Bookings',
+      },
+    ],
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-
-
-
-
   },
-  // set this to use virtual below
   {
     toJSON: {
       virtuals: true,
@@ -47,12 +45,5 @@ const skillOffered = new Schema(
   }
 );
 
-
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
-// userSchema.virtual('bookCount').get(function () {
-//   return this.savedBooks.length;
-// });
-
-
-
-export default skillOffered;
+// Create and export the Mongoose model
+export default model('SkillOffered', skillOffered);

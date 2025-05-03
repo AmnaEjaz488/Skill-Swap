@@ -1,8 +1,13 @@
 {
   "dependencies": {
+    "express-session": "^1.18.1",
+    "googleapis": "^148.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.14.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "webpack-dev-server": "^5.2.1",
+    "ws": "^8.18.1"
   },
   "name": "skill-swap",
   "version": "1.0.0",
@@ -10,7 +15,8 @@
   "description": "SkillSwap is a platform where users can exchange skills they’re good at (e.g., guitar, coding, cooking, Photoshop) and learn skills from others in return. It’s a barter-style learning community — no payments, just sharing knowledge.",
   "main": "src/server.js",
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "env-cmd": "^10.1.0"
   },
   "scripts": {
     "start": "concurrently \"npm run start-client\" \"npm run start-backend\"",
