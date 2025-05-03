@@ -43,7 +43,7 @@ async function connectDB() {
 
 const app = express();
 
-const server = new ApolloServer({
+ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
