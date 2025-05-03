@@ -34,10 +34,7 @@ async function connectDB() {
   if (!MONGO_URI) {
     throw new Error('Missing MONGO_URI in environment');
   }
-  await mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(MONGO_URI);
   console.log('✅ MongoDB connected');
 }
 
@@ -151,10 +148,8 @@ app.use('/api/calendar', calendarRouter);
 
 // === Static File Serving ===
 if (NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  });
 }
-
-// React catch-all
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
