@@ -6,23 +6,25 @@ import session from 'express-session';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
-import { authenticateToken } from './utils/auth.js';
-import { typeDefs, resolvers } from './schema/index.js';
 import { fileURLToPath } from 'url';
 import { google } from 'googleapis';
 import eventsRouter from './routes/api/events.js';
 import calendarRouter from './routes/api/calendar.js';
+import jwt from 'jsonwebtoken';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import typeDefs from './schema/typeDefs.js';
+import resolvers from './schema/resolvers.js';
 
 const {
-  MONGO_URI,
+  MONGODB_URI,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   SERVER_ROOT_URL = 'http://localhost:3001',
   SESSION_SECRET = 'keyboard_cat_secret',
   PORT = 3001,
   NODE_ENV,
+  JWT_SECRET_KEY,
 } = process.env;
 
 // Resolve __dirname in ES modules
@@ -31,29 +33,34 @@ const __dirname = path.dirname(__filename);
 
 // Connect to MongoDB
 async function connectDB() {
-  if (!MONGO_URI) {
-    throw new Error('Missing MONGO_URI in environment');
+  if (!MONGODB_URI) {
+    throw new Error('Missing MONGODB_URI in environment');
   }
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(MONGODB_URI);
   console.log('✅ MongoDB connected');
 }
 
+console.log('MONGODB:', process.env.MONGODB_URI);
+
 const app = express();
 
- const server = new ApolloServer({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true, // Enable introspection
   context: ({ req }) => {
-    // Use authenticateToken to attach the user to the context
-    return new Promise((resolve, reject) => {
-      authenticateToken(req, {}, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({ user: req.user });
-        }
-      });
-    });
+    const token = req.headers.authorization?.split(' ')[1]; // Extract the token from the Authorization header
+    console.log('Received Token:', token); // Log the token
+    if (token) {
+      try {
+        const user = jwt.verify(token, process.env.JWT_SECRET_KEY); // Verify the token
+        console.log('Verified User:', user); // Log the verified user
+        return { user }; // Attach the user to the context
+      } catch (err) {
+        console.error('Invalid token:', err.message);
+      }
+    }
+    return {}; // Return an empty context if no token is provided or verification fails
   },
 });
 
@@ -68,7 +75,7 @@ const startApolloServer = async () => {
 
     // Added CORS to fix fetch error
     app.use(cors({
-      origin: 'http://localhost:3000', // Allow requests from this origin
+      origin: ['http://localhost:3000', 'https://studio.apollographql.com'], // Allow requests from Apollo Sandbox
       credentials: true, // Allow cookies and credentials
     }));
 
@@ -76,9 +83,7 @@ const startApolloServer = async () => {
     app.use(express.json());
 
     //graphql 
-    app.use('/graphql', expressMiddleware(server,
-      { context: authenticateToken }
-    ));
+    app.use('/graphql', expressMiddleware(server));
 
     // Serve static assets in production
     if (process.env.NODE_ENV === 'production') {
@@ -101,7 +106,7 @@ startApolloServer();
 
 // === Middleware ===
 app.use(
-  cors({ origin: 'http://localhost:3000', credentials: true })
+  cors({ origin: ['http://localhost:3000', 'https://studio.apollographql.com'], credentials: true })
 );
 app.use(express.json());
 app.use(

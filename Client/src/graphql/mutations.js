@@ -20,7 +20,6 @@ export const SIGNUP = gql`
       user {
         _id
         name
-        username
         email
       }
     }
@@ -35,7 +34,6 @@ export const LOGIN = gql`
       user {
         _id
         name
-        username
         email
       }
     }

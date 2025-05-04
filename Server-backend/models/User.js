@@ -1,96 +1,47 @@
-import pkg from 'mongoose';
-const { Schema, model } = pkg;
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      match: [/.+@.+\..+/, 'Must use a valid email address'],
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-    },
-    bio: {
-      type: String,
-      required: false,
-    },
-    profilePicture: {
-      type: String,
-      required: false,
-    },
-    location: {
-      type: String,
-      required: false,
-    },
-    experience: {
-      type: String,
-      required: false,
-    },
-    education: {
-      type: String,
-      required: false,
-    },
-    certifications: {
-      type: [String],
-      required: false,
-    },
-    languagesSpoken: {
-      type: [String],
-      required: false,
-    },
-    socialMediaLinks: {
-      type: Map,
-      of: String,
-      required: false,
-    },
-    skillOffered: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'SkillOffered', // Reference the SkillOffered model
-      },
-    ],
-    skillNeeded: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'SkillNeeded', // Reference the SkillNeeded model
-      },
-    ],
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  {
-    toJSON: {
-      virtuals: true,
-    }, // Fixed: Changed semicolon to a comma
-  }
-);
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+});
 
-// Hash user password
+// Hash the password before saving
 userSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('password')) {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-  }
-
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-// Custom method to compare and validate password for logging in
-userSchema.methods.isCorrectPassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
-};
+userSchema.methods.isCorrectPassword= async function(password){
+const istrue= bcrypt.compare( password , this.password);
+return istrue 
 
-const User = model('User', userSchema);
+}
+
+
+
+const User = mongoose.model('User', userSchema);
+
 
 export default User;

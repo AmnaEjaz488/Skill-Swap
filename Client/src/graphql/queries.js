@@ -8,8 +8,7 @@ export const GET_ME = gql`
       name
       email
       bio
-      profilePicture
-      location
+
       skillsOffered {
         _id
         skillName
@@ -29,7 +28,7 @@ export const GET_ME = gql`
       skillsNeeded {
         _id
         skillName
-        skillDescription
+      
         daysAvailable
         bookings {
           _id
@@ -83,6 +82,7 @@ export const GET_SKILLS_NEEDED = gql`
         _id
         name
         email
+        username
       }
       bookings {
         _id
@@ -90,6 +90,8 @@ export const GET_SKILLS_NEEDED = gql`
         userId {
           _id
           name
+          username
+          email
         }
       }
     }

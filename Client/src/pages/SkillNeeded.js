@@ -2,31 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
 import '../styles/skillNeeded.css';
-
-// Define the GraphQL query
-export const GET_SKILLS_NEEDED = gql`
-  query GetSkillsNeeded {
-    skillsNeeded {
-      _id
-      skillName
-      skillDescription
-      daysAvailable
-      bookings {
-        _id
-        date
-        userId {
-          _id
-          username
-        }
-      }
-      userId {
-        _id
-        username
-        email
-      }
-    }
-  }
-`;
+import { GET_SKILLS_NEEDED } from '../graphql/queries.js'
 
 const SkillNeeded = () => {
   const { loading, error, data } = useQuery(GET_SKILLS_NEEDED);

@@ -10,7 +10,7 @@ dotenv.config();
 const seedDatabase = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect("mongodb://127.0.0.1:27017/skillSwapDB", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -25,6 +25,7 @@ const seedDatabase = async () => {
     // Insert seed data
     const users = await User.insertMany([
       {
+        name:'user11',
         username: 'user1',
         email: 'user1@example.com',
         password: 'password123',
@@ -32,6 +33,7 @@ const seedDatabase = async () => {
         bio: 'I am a web developer with 5 years of experience.',
       },
       {
+        name:'user12',
         username: 'user2',
         email: 'user2@example.com',
         password: 'password123',

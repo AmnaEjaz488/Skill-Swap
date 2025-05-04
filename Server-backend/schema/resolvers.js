@@ -13,14 +13,16 @@ const resolvers = {
       throw new AuthenticationError('You must be logged in');
     },
     skillsOffered: async () => {
-      return SkillOffered.find().populate('userId');
+      return await SkillOffered.find().populate('userId');
     },
     skillsNeeded: async () => {
-      return SkillNeeded.find().populate('userId');
+      const skilldata= await  SkillNeeded.find().populate('userId');
+      console.log (skilldata)
+      return skilldata
     },
     bookings: async (parent, args, context) => {
       if (context.user) {
-        return Bookings.find({ userId: context.user._id });
+        return await Bookings.find({ userId: context.user._id });
       }
       throw new AuthenticationError('You must be logged in');
     },
@@ -29,6 +31,8 @@ const resolvers = {
   Mutation: {
     signup: async (parent, { name, username, phone, email, password }) => {
       try {
+        console.log('Signup Variables:', { name, username, phone, email, password }); // Log incoming variables
+
         const existingUser = await User.findOne({ email });
         if (existingUser) {
           throw new AuthenticationError('User with this email already exists');
@@ -39,7 +43,7 @@ const resolvers = {
 
         return { token, user };
       } catch (err) {
-        console.error('Error in signup mutation:', err);
+        console.error('Error in signup mutation:', err); // Log the actual error
         throw new Error('Failed to create user');
       }
     },

@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
-
-const SIGNUP_MUTATION = gql`
-  mutation Signup($name: String!, $email: String!, $password: String!) {
-    signup(name: $name, email: $email, password: $password) {
-      token
-      user {
-        id
-        name
-      }
-    }
-  }
-`;
+import { SIGNUP} from '../graphql/mutations';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     password: '',
+    username:'',
+    phone:'',
+
   });
 
-  const [signup, { error }] = useMutation(SIGNUP_MUTATION);
+  const [signup, { error }] = useMutation(SIGNUP);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log('Form State:', formState); // Log the form state
       const { data } = await signup({
         variables: { ...formState },
       });
@@ -61,6 +54,23 @@ const Signup = () => {
           setFormState({ ...formState, password: e.target.value })
         }
       />
+      <input
+        type="username"
+        placeholder="username"
+        value={formState.username}
+        onChange={(e) =>
+          setFormState({ ...formState, username: e.target.value })
+        }
+      />
+         <input
+
+        type="phone"
+        placeholder="phone"
+        value={formState.phone}
+        onChange={(e) =>
+          setFormState({ ...formState, phone: e.target.value })
+        }
+          />
       <button type="submit">Sign Up</button>
       {error && <p className="error">An error occurred: {error.message}</p>}
     </form>

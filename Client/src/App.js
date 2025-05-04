@@ -29,8 +29,13 @@ const App = () => {
 
     // Check for JWT token in localStorage
     useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
-        setIsAuthenticated(!!token); 
+        const token = localStorage.getItem('token');
+        if (token ){
+            setIsAuthenticated(true)
+        } else 
+        {
+            setIsAuthenticated (false)
+        }
     }, []);
 
     // Protected Route Component
