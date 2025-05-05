@@ -28,7 +28,7 @@ export const authenticateToken = (req) => {
 
 export const signToken = (username, email, _id) => {
   const payload = { username, email, _id };
-  const secretKey = process.env.JWT_SECRET_KEY; // Use JWT_SECRET instead of JWT_SECRET_KEY
+  const secretKey = process.env.JWT_SECRET_KEY; // 
 
   if (!secretKey) {
     throw new Error('JWT_SECRET is not defined in the environment variables');

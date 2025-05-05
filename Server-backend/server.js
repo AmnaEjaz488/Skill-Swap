@@ -40,7 +40,7 @@ async function connectDB() {
   console.log('✅ MongoDB connected');
 }
 
-console.log('MONGODB:', process.env.MONGODB_URI);
+console.log('MONGODB:',MONGODB_URI);
 
 const app = express();
 
@@ -53,7 +53,7 @@ const server = new ApolloServer({
     console.log('Received Token:', token); // Log the token
     if (token) {
       try {
-        const user = jwt.verify(token, process.env.JWT_SECRET_KEY); // Verify the token
+        const user = jwt.verify(token, JWT_SECRET_KEY); // Verify the token
         console.log('Verified User:', user); // Log the verified user
         return { user }; // Attach the user to the context
       } catch (err) {
