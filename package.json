@@ -19,10 +19,12 @@
     "env-cmd": "^10.1.0"
   },
   "scripts": {
-    "start": "concurrently \"npm run start-client\" \"npm run start-backend\"",
+    "start": "cd Server-backend && node server.js",
+    "dev": "concurrently \"npm run start-client\" \"npm run start-backend\"",
     "start-client": "npm --prefix Client start",
     "start-backend": "npm --prefix Server-backend start",
-    "build": "react-scripts build"
+    "build": "cd Client && npm run build",
+    "seed":"cd Server-backend/seeds && node seeddb.js && cd ../ && node seeds.js"
   },
   "repository": {
     "type": "git",

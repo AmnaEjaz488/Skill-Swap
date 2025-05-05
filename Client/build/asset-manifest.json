@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.2e140d1d.css",
-    "main.js": "/static/js/main.ff0544fd.js",
+    "main.js": "/static/js/main.59e62413.js",
     "static/media/welcomepicture.jpg": "/static/media/welcomepicture.5e3c2521785c86618e03.jpg",
     "static/media/pianoskills.jpg": "/static/media/pianoskills.65604847d1ab04326c8d.jpg",
     "static/media/shareSkills.jpg": "/static/media/shareSkills.9dd38dd0da1fd09b5493.jpg",
     "static/media/onlineCoaching.jpg": "/static/media/onlineCoaching.851482caa890af9676f2.jpg",
     "index.html": "/index.html",
     "main.2e140d1d.css.map": "/static/css/main.2e140d1d.css.map",
-    "main.ff0544fd.js.map": "/static/js/main.ff0544fd.js.map"
+    "main.59e62413.js.map": "/static/js/main.59e62413.js.map"
   },
   "entrypoints": [
     "static/css/main.2e140d1d.css",
-    "static/js/main.ff0544fd.js"
+    "static/js/main.59e62413.js"
   ]
 }
