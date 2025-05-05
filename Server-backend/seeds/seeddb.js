@@ -110,11 +110,11 @@ const seedDatabase = async () => {
       const insertedSkillsNeeded = await SkillNeeded.insertMany(skillsNeeded);
       console.log('✅ Seeded SkillNeeded collection:', insertedSkillsNeeded);
       console.log('Skills Needed:', skillsNeeded);
-      
+      process.exit(0);
     } catch (err) {
       console.error('❌ Error inserting skillsNeeded:', err);
     }
-
+  
   } catch (err) {
     console.error('❌ Error seeding database:', err);
     process.exit(1);

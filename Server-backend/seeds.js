@@ -54,7 +54,7 @@ async function seed() {
 
     const inserted = await Event.insertMany(seeds);
     console.log(`✅ Inserted ${inserted.length} seeded events`);
-  
+    process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err);
   } finally {
