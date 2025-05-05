@@ -6,7 +6,7 @@ import Event from './models/Event.js';
 
 async function seed() {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser:    true,
       useUnifiedTopology: true,
     });
@@ -54,6 +54,7 @@ async function seed() {
 
     const inserted = await Event.insertMany(seeds);
     console.log(`✅ Inserted ${inserted.length} seeded events`);
+    process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err);
   } finally {

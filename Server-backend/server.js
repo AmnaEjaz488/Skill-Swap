@@ -87,9 +87,9 @@ const startApolloServer = async () => {
 
     // Serve static assets in production
     if (process.env.NODE_ENV === 'production') {
-      app.use(express.static(path.join(__dirname, '../client/build')));
+      app.use(express.static(path.join(__dirname, '../Client/build')));
       app.get('*', (_req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+        res.sendFile(path.join(__dirname, '../Client/build/index.html'));
       });
     }
 
@@ -153,8 +153,8 @@ app.use('/api/calendar', calendarRouter);
 
 // === Static File Serving ===
 if (NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../Client/build')));
   app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    res.sendFile(path.join(__dirname, '../Client/build/index.html'));
   });
 }

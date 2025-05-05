@@ -10,7 +10,7 @@ dotenv.config();
 const seedDatabase = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect("mongodb://127.0.0.1:27017/skillSwapDB", {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -110,10 +110,11 @@ const seedDatabase = async () => {
       const insertedSkillsNeeded = await SkillNeeded.insertMany(skillsNeeded);
       console.log('✅ Seeded SkillNeeded collection:', insertedSkillsNeeded);
       console.log('Skills Needed:', skillsNeeded);
+      process.exit(0);
     } catch (err) {
       console.error('❌ Error inserting skillsNeeded:', err);
     }
-
+  
   } catch (err) {
     console.error('❌ Error seeding database:', err);
     process.exit(1);
