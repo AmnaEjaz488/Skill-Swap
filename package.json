@@ -25,7 +25,7 @@
     "start-backend": "npm --prefix Server-backend start",
     "build": "cd Client && npm run build",
     "install":"cd Client && npm install && cd ../Server-backend && npm install",
-    "seed":"cd Server-backend/seeds && node seeddb.js && cd ../ && node seeds.js"
+    "seed":"cd Server-backend && node ./seeds/seeddb.js && node seeds.js"
   },
   "repository": {
     "type": "git",
