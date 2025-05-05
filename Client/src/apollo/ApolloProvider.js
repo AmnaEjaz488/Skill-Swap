@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider as Provider, createHttpLink
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3001/graphql', // Ensure this matches your backend GraphQL endpoint
+  uri: 'https://skill-swa3.onrender.com', // Ensure this matches your backend GraphQL endpoint
 });
 
 const authLink = setContext((_, { headers }) => {

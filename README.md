@@ -53,7 +53,7 @@ SkillSwap is a platform where users can exchange skills they’re good at (e.g.,
 
 ## :rocket: Deployment
 
-## https://skill-swa3.onrender.com/ ## 
+## https://skill-swa3.onrender.com ## 
 
 1. **Backend**:
    - Deployed on Render.
