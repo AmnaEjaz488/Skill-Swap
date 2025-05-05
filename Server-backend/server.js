@@ -20,7 +20,7 @@ const {
   MONGODB_URI,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  SERVER_ROOT_URL = 'http://localhost:3001',
+  SERVER_ROOT_URL = 'https://skill-swa3.onrender.com',
   SESSION_SECRET = 'keyboard_cat_secret',
   PORT = 3001,
   NODE_ENV,
@@ -75,7 +75,7 @@ const startApolloServer = async () => {
 
     // Added CORS to fix fetch error
     app.use(cors({
-      origin: ['http://localhost:3000', 'https://studio.apollographql.com'], // Allow requests from Apollo Sandbox
+      origin: ['https://skill-swa3.onrender.com', 'https://studio.apollographql.com'], // Allow requests from Apollo Sandbox
       credentials: true, // Allow cookies and credentials
     }));
 
@@ -106,7 +106,7 @@ startApolloServer();
 
 // === Middleware ===
 app.use(
-  cors({ origin: ['http://localhost:3000', 'https://studio.apollographql.com'], credentials: true })
+  cors({ origin: ['https://skill-swa3.onrender.com', 'https://studio.apollographql.com'], credentials: true })
 );
 app.use(express.json());
 app.use(
