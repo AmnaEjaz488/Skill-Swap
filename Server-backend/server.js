@@ -20,7 +20,7 @@ const {
   MONGODB_URI,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  SERVER_ROOT_URL = 'http://localhost:3001',
+  SERVER_ROOT_URL = 'http://localhost:3001/graphql',
   SESSION_SECRET = 'keyboard_cat_secret',
   PORT = 3001,
   NODE_ENV,
@@ -40,7 +40,7 @@ async function connectDB() {
   console.log('✅ MongoDB connected');
 }
 
-console.log('MONGODB:', process.env.MONGODB_URI);
+console.log('MONGODB:',MONGODB_URI);
 
 const app = express();
 
@@ -53,7 +53,7 @@ const server = new ApolloServer({
     console.log('Received Token:', token); // Log the token
     if (token) {
       try {
-        const user = jwt.verify(token, process.env.JWT_SECRET_KEY); // Verify the token
+        const user = jwt.verify(token, JWT_SECRET_KEY); // Verify the token
         console.log('Verified User:', user); // Log the verified user
         return { user }; // Attach the user to the context
       } catch (err) {
@@ -74,24 +74,66 @@ const startApolloServer = async () => {
     await server.start();
 
     // Added CORS to fix fetch error
-    app.use(cors({
-      origin: ['http://localhost:3000', 'https://studio.apollographql.com'], // Allow requests from Apollo Sandbox
-      credentials: true, // Allow cookies and credentials
-    }));
+    //app.use(cors({
+     // origin: 'http://localhost:3001/graphql', // Correct frontend URL
+      // 'http://localhost:3001/graphql' pre deployment link
+      //credentials: true, // Allow cookies and credentials
+    //}));
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-
+    app.use(
+      session({
+        secret: SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+      })
+    );
+    
+    // === Google OAuth2 Setup ===
+    const oauth2Client = new google.auth.OAuth2(
+      GOOGLE_CLIENT_ID,
+      GOOGLE_CLIENT_SECRET,
+      `${SERVER_ROOT_URL}/api/google/callback`
+    );
+    const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+    
+    // Start OAuth flow
+    app.get('/api/google/auth', (_req, res) => {
+      const url = oauth2Client.generateAuthUrl({
+        access_type: 'offline',
+        prompt: 'consent',
+        scope: SCOPES,
+      });
+      res.redirect(url);
+    });
+    
+    // OAuth callback
+    app.get('/api/google/callback', async (req, res) => {
+      try {
+        const { tokens } = await oauth2Client.getToken(req.query.code);
+        req.session.tokens = tokens;
+        res.redirect('https://skill-swap-01.onrender.com/my-calendar');
+      } catch (err) {
+        console.error('OAuth callback error:', err);
+        res.status(500).send('Authentication failed');
+      }
+    });
+    
+    // === API Routes ===
+    app.use('/api/events', eventsRouter);
+    app.use('/api/calendar', calendarRouter);
+    
     //graphql 
     app.use('/graphql', expressMiddleware(server));
 
     // Serve static assets in production
-    if (process.env.NODE_ENV === 'production') {
-      app.use(express.static(path.join(__dirname, '../Client/build')));
+    //if (process.env.NODE_ENV === 'production') {
+     app.use(express.static(path.join(__dirname, '../Client/build')));
       app.get('*', (_req, res) => {
         res.sendFile(path.join(__dirname, '../Client/build/index.html'));
       });
-    }
+   // }
 
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
@@ -100,61 +142,12 @@ const startApolloServer = async () => {
   } catch (error) {
     console.error('Failed to start the server:', error.message);
   }
-};
+}
+// === Middleware ===
+//app.use(
+  //cors({ origin: 'http://localhost:3001/graphql', credentials: true })
+//);
+//app.use(express.json());
+// === Static File Serving ===
 
 startApolloServer();
-
-// === Middleware ===
-app.use(
-  cors({ origin: ['http://localhost:3000', 'https://studio.apollographql.com'], credentials: true })
-);
-app.use(express.json());
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-// === Google OAuth2 Setup ===
-const oauth2Client = new google.auth.OAuth2(
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  `${SERVER_ROOT_URL}/api/google/callback`
-);
-const SCOPES = ['https://www.googleapis.com/auth/calendar'];
-
-// Start OAuth flow
-app.get('/api/google/auth', (_req, res) => {
-  const url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    prompt: 'consent',
-    scope: SCOPES,
-  });
-  res.redirect(url);
-});
-
-// OAuth callback
-app.get('/api/google/callback', async (req, res) => {
-  try {
-    const { tokens } = await oauth2Client.getToken(req.query.code);
-    req.session.tokens = tokens;
-    res.redirect('http://localhost:3000/my-calendar');
-  } catch (err) {
-    console.error('OAuth callback error:', err);
-    res.status(500).send('Authentication failed');
-  }
-});
-
-// === API Routes ===
-app.use('/api/events', eventsRouter);
-app.use('/api/calendar', calendarRouter);
-
-// === Static File Serving ===
-if (NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../Client/build')));
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../Client/build/index.html'));
-  });
-}
