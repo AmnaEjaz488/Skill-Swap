@@ -45,16 +45,6 @@ SkillSwap is a platform where users can exchange skills they’re good at (e.g.,
 
 ---
 
-## :card_file_box: Database Models
-1. **User Schema**:
-   - `name`, `email`, `password`, `bio`, `skillsOffered`, `skillsWanted`.
-2. **Skill Schema**:
-   - `title`, `category`, `description`, `availability`.
-3. **Booking Schema**:
-   - `userId`, `skillId`, `date/time`.
-
----
-
 ## :closed_lock_with_key: Authentication
 - **Register/Login**: Users can sign up or log in securely.
 - **Protected Routes**: Only authenticated users can book sessions or manage skills.
@@ -62,10 +52,14 @@ SkillSwap is a platform where users can exchange skills they’re good at (e.g.,
 ---
 
 ## :rocket: Deployment
+
+## https://skill-swa3.onrender.com/ ## 
+
 1. **Backend**:
    - Deployed on Render.
 2. **Frontend**:
-   - Deployed on Vercel or Render.
+   - Deployed on  Render.
+   
 3. **CI/CD**:
    - GitHub Actions for linting and testing on push.
 
@@ -142,6 +136,9 @@ SkillSwap is a platform where users can exchange skills they’re good at (e.g.,
 ---
 
 ## :link: Deployment
+
+## https://skill-swa3.onrender.com/ ##
+
 1. **Backend**:
    - Deploy on Render.
    - Set environment variables in Render's dashboard.
