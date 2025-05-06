@@ -1,84 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function MyCalendar() {
-  const [myEvents, setMyEvents] = useState([]);
-
-  // Fetch and filter only SkillShare (Zoom) events
-  const fetchCalendar = async () => {
-    try {
-      const res = await fetch('/api/calendar', {
-        credentials: 'include',
-      });
-      if (res.status === 401) {
-        // kick off OAuth if needed
-        window.location = 'https://www.googleapis.com/calendar/v3/api/google/auth';
-        return;
-      }
-      const data = await res.json();
-      const skillEvents = Array.isArray(data)
-        ? data.filter(evt => evt.description && evt.description.includes('Zoom:'))
-        : [];
-      setMyEvents(skillEvents);
-    } catch (err) {
-      console.error('Error fetching calendar:', err);
-    }
-  };
+  const [enrolledEvents, setEnrolledEvents] = useState([]);
 
   useEffect(() => {
-    fetchCalendar();
-  }, []);
+    // 1) Load full event list from localStorage (fallback to seeded)
+    const storedAll = localStorage.getItem('allEvents');
+    const seedEvents = [
+      {
+        id: 'e1',
+        title: 'Intro to Guitar',
+        description: 'Learn basic chords and strumming patterns.',
+        date: '2025-05-05T18:00',
+        zoomLink: 'https://zoom.us/j/1234567890',
+      },
+      {
+        id: 'e2',
+        title: 'JavaScript Crash Course',
+        description: 'DOM, ES6+, and building interactive pages.',
+        date: '2025-05-06T16:00',
+        zoomLink: 'https://zoom.us/j/9876543210',
+      },
+    ];
+    const allEvents = storedAll ? JSON.parse(storedAll) : seedEvents;
 
-  // Remove an event from the user's Google Calendar
-  const handleUnenroll = async (id) => {
-    if (!window.confirm('Remove this event from your calendar?')) return;
-    try {
-      const res = await fetch(`/api/calendar/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-      if (res.status === 204) {
-        fetchCalendar();
-      } else {
-        const text = await res.text();
-        throw new Error(text || res.statusText);
-      }
-    } catch (err) {
-      console.error('Unenroll failed:', err);
-      alert('Unenroll failed: ' + err.message);
-    }
-  };
+    // 2) Load enrolled IDs from localStorage
+    const storedEnrolled = localStorage.getItem('enrolledEvents');
+    const enrolledIds = storedEnrolled ? JSON.parse(storedEnrolled) : [];
+
+    // 3) Filter for those IDs
+    const list = allEvents.filter(evt => enrolledIds.includes(evt.id));
+    setEnrolledEvents(list);
+  }, []);
 
   return (
     <div style={{ padding: '1rem' }}>
-      <h2>My SkillShare Events</h2>
-      {myEvents.length === 0 && <p>No upcoming SkillShare events.</p>}
-      {myEvents.map(evt => {
-        const startRaw = evt.start.dateTime ?? evt.start.date;
-        const isAllDay = !evt.start.dateTime;
-        const startStr = isAllDay
-          ? new Date(startRaw).toLocaleDateString()
-          : new Date(startRaw).toLocaleString();
-        return (
-          <div key={evt.id} style={{ marginBottom: '1rem' }}>
-            <strong>{evt.summary}</strong><br/>
-            <em>{startStr}</em><br/>
-            <p>{evt.description}</p>
-            <button
-              onClick={() => handleUnenroll(evt.id)}
-              style={{
-                marginTop: '0.5rem',
-                background: 'orange',
-                color: 'white',
-                border: 'none',
-                padding: '0.25rem 0.5rem',
-                cursor: 'pointer'
-              }}
+      <h1>My SkillShare Calendar</h1>
+      {enrolledEvents.length === 0 ? (
+        <p>You haven’t enrolled in any events yet.</p>
+      ) : (
+        enrolledEvents.map(evt => (
+          <div
+            key={evt.id}
+            style={{
+              border: '1px solid #333',
+              padding: '0.5rem',
+              marginBottom: '0.5rem',
+            }}
+          >
+            <strong>{evt.title}</strong><br />
+            {new Date(evt.date).toLocaleString()}<br />
+            <em>{evt.description}</em><br />
+            <a
+              href={evt.zoomLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Unenroll
-            </button>
+              🔗 Join Zoom
+            </a>
           </div>
-        );
-      })}
+        ))
+      )}
     </div>
   );
 }

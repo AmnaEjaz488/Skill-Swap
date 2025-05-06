@@ -1,195 +1,100 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Booking() {
-  const [events, setEvents] = useState([]);
-  const [form, setForm] = useState({
-    summary:    '',
-    description:'',
-    start:      '',
-    end:        '',
-    zoomLink:   '',
+  // 1) Hard-coded seeded events
+  const seedEvents = [
+    {
+      id: 'e1',
+      title: 'Intro to Guitar',
+      description: 'Learn basic chords and strumming patterns.',
+      date: '2025-05-05T18:00',
+      zoomLink: 'https://zoom.us/j/1234567890',
+    },
+    {
+      id: 'e2',
+      title: 'JavaScript Crash Course',
+      description: 'DOM, ES6+, and building interactive pages.',
+      date: '2025-05-06T16:00',
+      zoomLink: 'https://zoom.us/j/9876543210',
+    },
+  ];
+
+  // 2) State: events list (seeded + user-created)
+  const [events, setEvents] = useState(() => {
+    const stored = localStorage.getItem('allEvents');
+    return stored ? JSON.parse(stored) : seedEvents;
   });
 
-  // Load all events
-  const fetchEvents = async () => {
-    try {
-      const res = await fetch('/api/events', {
-        credentials: 'include',
-      });
-      if (res.status === 401) {
-        window.location = '/api/google/auth';
-        return;
-      }
-      const data = await res.json();
-      // initialize enrolled flag to false
-      setEvents(data.map(ev => ({ ...ev, enrolled: false })));
-    } catch (err) {
-      console.error('Error fetching events:', err);
-    }
-  };
+  // 3) State: enrolled event IDs
+  const [enrolledIds, setEnrolledIds] = useState(() => {
+    const stored = localStorage.getItem('enrolledEvents');
+    return stored ? JSON.parse(stored) : [];
+  });
 
+  // 4) Form state
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    date: '',
+    zoomLink: '',
+  });
+
+  // 5) Persist events list whenever it changes
   useEffect(() => {
-    fetchEvents();
-  }, []);
+    localStorage.setItem('allEvents', JSON.stringify(events));
+  }, [events]);
 
-  // Handle creation form
-  const handleChange = e =>
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  // 6) Persist enrolled IDs whenever they change
+  useEffect(() => {
+    localStorage.setItem('enrolledEvents', JSON.stringify(enrolledIds));
+  }, [enrolledIds]);
 
-  const handleSubmit = async e => {
+  // 7) Handle form field changes
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(f => ({ ...f, [name]: value }));
+  };
+
+  // 8) Create new event
+  const handleCreate = e => {
     e.preventDefault();
-    try {
-      const res = await fetch('/api/events', {
-        method:      'POST',
-        headers:     { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body:        JSON.stringify(form),
-      });
-      if (res.status === 401) {
-        window.location = '/api/google/auth';
-        return;
-      }
-      if (!res.ok) throw new Error(await res.text());
-      setForm({ summary:'', description:'', start:'', end:'', zoomLink:'' });
-      fetchEvents();
-    } catch (err) {
-      console.error('Create failed:', err);
-      alert('Create failed: ' + err.message);
-    }
+    const newEvent = {
+      id: 'e' + (events.length + 1),
+      title: form.title,
+      description: form.description,
+      date: form.date,
+      zoomLink: form.zoomLink,
+    };
+    setEvents(evts => [...evts, newEvent]);
+    setForm({ title: '', description: '', date: '', zoomLink: '' });
   };
 
-  // Enroll handler: on success mark enrolled=true
-  const handleEnroll = async id => {
-    try {
-      const res = await fetch(
-        `/api/events/${id}/enroll`,
-        {
-          method:      'POST',
-          credentials: 'include',
-        }
-      );
-      if (res.status === 401) {
-        window.location = '/api/google/auth';
-        return;
-      }
-      if (!res.ok) throw new Error(await res.text());
-
-      // mark that one event as enrolled
-      setEvents(evts =>
-        evts.map(ev =>
-          ev._id === id ? { ...ev, enrolled: true } : ev
-        )
-      );
-    } catch (err) {
-      console.error('Enroll failed:', err);
-      alert('Enroll failed: ' + err.message);
-    }
-  };
-
-  // Delete handler
-  const handleDelete = async id => {
-    if (!window.confirm('Really delete this event?')) return;
-    try {
-      const res = await fetch(
-        `/api/events/${id}`,
-        {
-          method:      'DELETE',
-          credentials: 'include',
-        }
-      );
-      if (res.status === 401) {
-        window.location = '/api/google/auth';
-        return;
-      }
-      if (res.status === 204) {
-        setEvents(evts => evts.filter(ev => ev._id !== id));
-      } else {
-        throw new Error(await res.text());
-      }
-    } catch (err) {
-      console.error('Delete failed:', err);
-      alert('Delete failed: ' + err.message);
+  // 9) Enroll in an event
+  const handleEnroll = id => {
+    if (!enrolledIds.includes(id)) {
+      setEnrolledIds(ids => [...ids, id]);
     }
   };
 
   return (
-    <div style={{ display: 'flex', padding: '1rem' }}>
-      {/* Events list */}
-      <div style={{ flex: 2, marginRight: '1rem' }}>
-        <h2>Available Events</h2>
-        {events.map(ev => (
-          <div
-            key={ev._id}
-            style={{
-              border: '1px solid #ccc',
-              padding: '0.5rem',
-              marginBottom: '0.5rem',
-            }}
-          >
-            <strong>{ev.summary}</strong><br />
-            {new Date(ev.start).toLocaleString()} –{' '}
-            {new Date(ev.end).toLocaleString()}
-            <br />
-            {ev.description}
-            <br />
-            <a
-              href={ev.zoomLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              🔗 Zoom Link
-            </a>
-            {/* Enroll button */}
-            <button
-              onClick={() => handleEnroll(ev._id)}
-              disabled={ev.enrolled}
-              style={{
-                marginLeft: '0.5rem',
-                color: 'white',
-                background: ev.enrolled ? 'gray' : 'green',
-                border: 'none',
-                padding: '0.25rem 0.5rem',
-                cursor: ev.enrolled ? 'default' : 'pointer',
-              }}
-            >
-              {ev.enrolled ? 'Enrolled' : 'Enroll'}
-            </button>
-            {/* Delete button */}
-            {!ev.seeded && (
-              <button
-                onClick={() => handleDelete(ev._id)}
-                style={{
-                  marginLeft: '0.5rem',
-                  color: 'white',
-                  background: 'red',
-                  border: 'none',
-                  padding: '0.25rem 0.5rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Delete
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+    <div style={{ padding: '1rem' }}>
+      <h1>Booking Page</h1>
 
-      {/* Create form */}
-      <div style={{ flex: 1 }}>
-        <h2>Create Event</h2>
-        <form onSubmit={handleSubmit}>
+      {/* —— Create Event Form —— */}
+      <form onSubmit={handleCreate} style={{ marginBottom: '2rem' }}>
+        <h2>Create New Event</h2>
+        <div>
           <label>
             Title:<br />
             <input
-              name="summary"
-              value={form.summary}
+              name="title"
+              value={form.title}
               onChange={handleChange}
               required
             />
           </label>
-          <br />
-          <br />
-
+        </div>
+        <div>
           <label>
             Description:<br />
             <textarea
@@ -199,51 +104,77 @@ export default function Booking() {
               required
             />
           </label>
-          <br />
-          <br />
-
+        </div>
+        <div>
           <label>
-            Start:<br />
+            Date & Time:<br />
             <input
               type="datetime-local"
-              name="start"
-              value={form.start}
+              name="date"
+              value={form.date}
               onChange={handleChange}
               required
             />
           </label>
-          <br />
-          <br />
-
-          <label>
-            End:<br />
-            <input
-              type="datetime-local"
-              name="end"
-              value={form.end}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <br />
-          <br />
-
+        </div>
+        <div>
           <label>
             Zoom Link:<br />
             <input
+              type="url"
               name="zoomLink"
               value={form.zoomLink}
               onChange={handleChange}
-              placeholder="https://zoom.us/…"
-              required
+              placeholder="https://zoom.us/..."
             />
           </label>
-          <br />
-          <br />
+        </div>
+        <button type="submit" style={{ marginTop: '0.5rem' }}>
+          Create Event
+        </button>
+      </form>
 
-          <button type="submit">Create Event</button>
-        </form>
-      </div>
+      {/* —— Available Events List —— */}
+      <h2>Available Events</h2>
+      {events.map(evt => {
+        const enrolled = enrolledIds.includes(evt.id);
+        return (
+          <div
+            key={evt.id}
+            style={{
+              border: '1px solid #ccc',
+              padding: '0.5rem',
+              marginBottom: '0.5rem',
+            }}
+          >
+            <strong>{evt.title}</strong><br />
+            {new Date(evt.date).toLocaleString()}<br />
+            <p>{evt.description}</p>
+            <a
+              href={evt.zoomLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🔗 Zoom Link
+            </a>
+            <br />
+            <button
+              onClick={() => handleEnroll(evt.id)}
+              disabled={enrolled}
+              style={{
+                marginTop: '0.5rem',
+                background: enrolled ? 'gray' : 'green',
+                color: 'white',
+                border: 'none',
+                padding: '0.25rem 0.5rem',
+                cursor: enrolled ? 'default' : 'pointer',
+              }}
+            >
+              {enrolled ? 'Enrolled' : 'Enroll'}
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }
