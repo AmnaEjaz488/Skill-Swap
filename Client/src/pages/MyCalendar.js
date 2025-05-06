@@ -6,12 +6,12 @@ export default function MyCalendar() {
   // Fetch and filter only SkillShare (Zoom) events
   const fetchCalendar = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/calendar', {
+      const res = await fetch('/api/calendar', {
         credentials: 'include',
       });
       if (res.status === 401) {
         // kick off OAuth if needed
-        window.location = 'http://localhost:3001/api/google/auth';
+        window.location = '/api/google/auth';
         return;
       }
       const data = await res.json();
@@ -32,7 +32,7 @@ export default function MyCalendar() {
   const handleUnenroll = async (id) => {
     if (!window.confirm('Remove this event from your calendar?')) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/calendar/${id}`, {
+      const res = await fetch(`/api/calendar/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
