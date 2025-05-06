@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
@@ -74,12 +73,13 @@ const startApolloServer = async () => {
     await server.start();
 
     // Added CORS to fix fetch error
-    //app.use(cors({
-     // origin: 'http://localhost:3001/graphql', // Correct frontend URL
-      // 'http://localhost:3001/graphql' pre deployment link
-      //credentials: true, // Allow cookies and credentials
-    //}));
-
+    app.use(
+      cors({
+        origin: 'https://skill-swap-01.onrender.com',
+        credentials: true, // Allow cookies and credentials
+      })
+    );
+//middleware 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(

@@ -13,11 +13,11 @@ export default function Booking() {
   // Load all events
   const fetchEvents = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/events', {
+      const res = await fetch('/api/events', {
         credentials: 'include',
       });
       if (res.status === 401) {
-        window.location = 'http://localhost:3001/api/google/auth';
+        window.location = '/api/google/auth';
         return;
       }
       const data = await res.json();
@@ -39,14 +39,14 @@ export default function Booking() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/api/events', {
+      const res = await fetch('/api/events', {
         method:      'POST',
         headers:     { 'Content-Type': 'application/json' },
         credentials: 'include',
         body:        JSON.stringify(form),
       });
       if (res.status === 401) {
-        window.location = 'http://localhost:3001/api/google/auth';
+        window.location = '/api/google/auth';
         return;
       }
       if (!res.ok) throw new Error(await res.text());
@@ -62,14 +62,14 @@ export default function Booking() {
   const handleEnroll = async id => {
     try {
       const res = await fetch(
-        `http://localhost:3001/api/events/${id}/enroll`,
+        `/api/events/${id}/enroll`,
         {
           method:      'POST',
           credentials: 'include',
         }
       );
       if (res.status === 401) {
-        window.location = 'http://localhost:3001/api/google/auth';
+        window.location = '/api/google/auth';
         return;
       }
       if (!res.ok) throw new Error(await res.text());
@@ -91,14 +91,14 @@ export default function Booking() {
     if (!window.confirm('Really delete this event?')) return;
     try {
       const res = await fetch(
-        `http://localhost:3001/api/events/${id}`,
+        `/api/events/${id}`,
         {
           method:      'DELETE',
           credentials: 'include',
         }
       );
       if (res.status === 401) {
-        window.location = 'http://localhost:3001/api/google/auth';
+        window.location = '/api/google/auth';
         return;
       }
       if (res.status === 204) {

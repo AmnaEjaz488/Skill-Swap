@@ -19,7 +19,7 @@
     "env-cmd": "^10.1.0"
   },
   "scripts": {
-    "start": "cd Server-backend && node server.js",
+    "start": "cd Server-backend && node server.js && npm run seed",
     "dev": "concurrently \"npm run start-client\" \"npm run start-backend\"",
     "start-client": "npm --prefix Client start",
     "start-backend": "npm --prefix Server-backend start",

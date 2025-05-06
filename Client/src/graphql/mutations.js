@@ -122,24 +122,17 @@ export const REQUEST_SESSION = gql`
 `;
 
 // Mutation to create a booking
-export const CREATE_BOOKING = gql`
-  mutation CreateBooking($input: BookingInput!) {
-    createBooking(input: $input) {
-      _id
-      tutorID {
-        _id
-        username
-      }
-      studentId {
-        _id
-        username
-      }
-      DateTime
-      goalsForSession
-      Feedback
-    }
-  }
-`;
+//export const CREATE_BOOKING = gql`
+//mutation RequestSession($skillId: ID!, $date: String!) {
+  //requestSession(skillId: $skillId, date: $date) {
+   // _id
+    //userId {
+    //  _id
+   // }
+   // skillId
+    //date
+  //}
+//}`
 
 // Mutation to add feedback
 export const ADD_FEEDBACK = gql`
